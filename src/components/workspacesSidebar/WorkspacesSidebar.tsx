@@ -1,15 +1,18 @@
-import './WorkspacesSidebar.scss';
-import { UserProfile } from '../userProfile';
-import { WorkspaceSettings } from '../workspaceSettings';
+import './WorkspacesSidebar.scss'
+import { UserProfile } from '../userProfile'
+import { WorkspaceSettings } from '../workspaceSettings'
+import { WorkspacesHeader } from '../workspacesHeader'
 
 export const WorkspacesSidebar = () => {
   return (
-    <div className='workspaces'>
-      <div className="workspaces-header"></div>
-      <div className="workspaces-main"></div>
-      <div className="workspaces-footer">
+    <div className="workspaces-sidebar">
+      <div className="workspaces-sidebar__header">
+        <WorkspacesHeader />
+      </div>
+      <div className="workspaces-sidebar__main"></div>
+      <div className="workspaces-sidebar__footer">
         <UserProfile />
-        <WorkspaceSettings/>
+        <WorkspaceSettings />
       </div>
     </div>
   )

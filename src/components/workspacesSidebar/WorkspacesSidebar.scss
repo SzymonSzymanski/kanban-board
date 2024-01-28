@@ -1,20 +1,28 @@
-.workspaces {
-    border-radius: 16px;
-    background: #FFF;
-    box-shadow: 0px 0px 1px 0px rgba(18, 3, 62, 0.11), 0px 3px 5px 0px rgba(18, 3, 62, 0.10);
-    width: 100%;
-    max-width: 294px;
-    height: 100%;
+.workspaces-sidebar {
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 0 1px 0 rgba(18, 3, 62, 0.11),
+    0 3px 5px 0 rgba(18, 3, 62, 0.1);
+  border-radius: 16px;
+  background: #fff;
+  width: 100%;
+  max-width: 294px;
+  height: 100%;
+
+  &__header {
+    padding: 8px 8px 16px;
+  }
+
+  &__main {
+    flex-grow: 1;
+    padding: 8px;
+  }
+
+  &__footer {
     display: flex;
-    flex-direction: column;
-    &-main {
-        padding: 8px;
-        flex-grow: 1;
-    }
-    &-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 24px;
-    }
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+  }
 }
