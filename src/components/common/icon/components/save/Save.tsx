@@ -1,20 +1,21 @@
-export const AddWorkSpaceButtonIconAdd = () => {
+export const Save = () => {
   return (
     <svg
-      width="17"
+      className="save"
+      width="16"
       height="16"
-      viewBox="0 0 17 16"
+      viewBox="0 0 16 16"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_2465_105)">
+      <g clipPath="url(#clip0_2465_227)">
         <path
-          d="M7.83331 7.33337V3.33337H9.16665V7.33337H13.1666V8.66671H9.16665V12.6667H7.83331V8.66671H3.83331V7.33337H7.83331Z"
+          d="M7.16668 10.1148L13.2947 3.98608L14.238 4.92875L7.16668 12.0001L2.92401 7.75742L3.86668 6.81475L7.16668 10.1148Z"
           fill="currentColor"
         />
       </g>
       <defs>
-        <clipPath id="clip0_2465_105">
+        <clipPath id="clip0_2465_227">
           <rect
             width="16"
             height="16"

@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react'
 
-import { DefaultIcon } from './DefaultIcon.tsx'
+import { DefaultIcon } from './components/defaultIcon'
 
 import './Workspace.scss'
 
