@@ -1,3 +1,5 @@
+@use '@styles/variables' as *;
+
 .workspace {
   display: flex;
   align-items: center;
@@ -11,6 +13,14 @@
   font-size: 13px;
   line-height: 18px;
   font-family: Inter, sans-serif;
+
+  &:hover {
+    .workspace__controls {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
 
   input {
     flex: 1;
@@ -26,7 +36,7 @@
     font-family: Inter, sans-serif;
 
     &::placeholder {
-      color: rgba(#001c39, 0.5);
+      color: rgba($blue-dark-typography, 0.5);
     }
   }
 
@@ -39,5 +49,15 @@
     width: 32px;
     height: 32px;
     color: #001c39;
+  }
+
+  &__controls {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      0.1s visibility,
+      0.2s opacity;
+    margin-left: auto;
+    pointer-events: none;
   }
 }

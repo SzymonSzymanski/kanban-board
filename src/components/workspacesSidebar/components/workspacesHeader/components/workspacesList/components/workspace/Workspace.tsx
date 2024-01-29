@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react'
 
-import { WorkspaceDefault } from '@assets/icons'
+import { Edit, Remove, WorkspaceDefault } from '@assets/icons'
 
 import './Workspace.scss'
 
@@ -33,6 +33,12 @@ export const Workspace = ({
         />
       ) : (
         <span>{name}</span>
+      )}
+      {!isEditing && (
+        <div className="workspace__controls">
+          <Edit />
+          <Remove />
+        </div>
       )}
     </div>
   )
