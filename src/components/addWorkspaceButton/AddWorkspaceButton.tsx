@@ -1,9 +1,10 @@
+import { IconType } from '../common/icon/IconTypes.ts'
+
 import { RootState } from '../../store/store.ts'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveNewWorkspace, startAddingWorkspace } from '../../store/slices'
 
-import { AddWorkSpaceButtonIconAdd } from './AddWorkSpaceButtonIconAdd.tsx'
-import { AddWorkSpaceButtonIconSave } from './AddWorkSpaceButtonIconSave.tsx'
+import { Icon } from '../common/icon'
 
 import './AddWorkspaceButton.scss'
 
@@ -32,9 +33,9 @@ export const AddWorkspaceButton = () => {
       disabled={isButtonDisabled}
     >
       {isAddingWorkspace ? (
-        <AddWorkSpaceButtonIconSave />
+        <Icon type={IconType.Save} />
       ) : (
-        <AddWorkSpaceButtonIconAdd />
+        <Icon type={IconType.Add} />
       )}
       {isAddingWorkspace ? 'Save new workspace' : 'Create workspace'}
     </button>
