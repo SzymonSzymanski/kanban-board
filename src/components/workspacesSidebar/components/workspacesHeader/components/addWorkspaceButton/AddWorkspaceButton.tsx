@@ -1,10 +1,10 @@
-import { IconType } from '../common/icon/IconTypes.ts'
+import { IconType } from '@components/common/icon/IconTypes.ts'
 
-import { RootState } from '../../store/store.ts'
+import { RootState } from '@store/store.ts'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveNewWorkspace, startAddingWorkspace } from '../../store/slices'
+import { saveNewWorkspace, startAddingWorkspace } from '@store/slices'
 
-import { Icon } from '../common/icon'
+import { Icon } from '@components/common/icon'
 
 import './AddWorkspaceButton.scss'
 

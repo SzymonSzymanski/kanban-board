@@ -1,9 +1,10 @@
 import { ChangeEvent } from 'react'
-import { RootState } from '../../store/store.ts'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateNewWorkspaceName } from '../../store/slices'
+import { RootState } from '@store/store.ts'
 
-import { Workspace } from '../workspace'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateNewWorkspaceName } from '@store/slices'
+
+import { Workspace } from './components/workspace'
 
 import './WorkspacesList.scss'
 

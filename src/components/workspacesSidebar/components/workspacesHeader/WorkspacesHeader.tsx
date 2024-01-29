@@ -1,5 +1,5 @@
-import { WorkspacesList } from '../workspacesList'
-import { AddWorkspaceButton } from '../addWorkspaceButton'
+import { WorkspacesList } from './components/workspacesList'
+import { AddWorkspaceButton } from './components/addWorkspaceButton'
 
 import './WorkspacesHeader.scss'
 

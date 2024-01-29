@@ -1,7 +1,8 @@
+import { UserProfile } from './components/userProfile'
+import { WorkspaceSettings } from './components/workspaceSettings'
+import { WorkspacesHeader } from './components/workspacesHeader'
+
 import './WorkspacesSidebar.scss'
-import { UserProfile } from '../userProfile'
-import { WorkspaceSettings } from '../workspaceSettings'
-import { WorkspacesHeader } from '../workspacesHeader'
 
 export const WorkspacesSidebar = () => {
   return (

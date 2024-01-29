@@ -1,9 +1,6 @@
 import { IconType } from './IconTypes'
 
-import { Add } from './components/add'
-import { Remove } from './components/remove'
-import { Edit } from './components/edit'
-import { Save } from './components/save'
+import { Add, Edit, Remove, Save } from '@assets/icons'
 
 import './Icon.scss'
 

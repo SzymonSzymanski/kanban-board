@@ -1,4 +1,4 @@
-export const DefaultIcon = () => {
+export const WorkspaceDefault = () => {
   return (
     <svg
       width="32"

@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from 'react'
 
-import { DefaultIcon } from './components/defaultIcon'
+import { WorkspaceDefault } from '@assets/icons'
 
 import './Workspace.scss'
 
@@ -19,7 +19,7 @@ export const Workspace = ({
 }: WorkspaceProps) => {
   return (
     <div className="workspace">
-      {icon && <DefaultIcon />}
+      {icon && <WorkspaceDefault />}
       {!icon && (
         <span className="workspace__icon">{name.charAt(0).toUpperCase()}</span>
       )}
