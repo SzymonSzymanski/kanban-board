@@ -1,1 +1,1 @@
-export * from "./WorkspacesHeader.tsx";
+export * from './WorkspacesHeader'

@@ -1,7 +1,9 @@
-export const Save = () => {
+import { IconProps } from '@types'
+
+export const Save = ({ className }: IconProps) => {
   return (
     <svg
-      className="save"
+      className={className}
       width="16"
       height="16"
       viewBox="0 0 16 16"

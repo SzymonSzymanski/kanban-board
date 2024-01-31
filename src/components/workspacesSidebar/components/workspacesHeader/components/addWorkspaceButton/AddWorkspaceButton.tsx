@@ -1,12 +1,12 @@
-import { IconType } from '@components/common/icon/IconTypes.ts'
+import { AddWorkspaceButtonType, IconType } from '@enums'
 
-import { RootState } from '@store/store.ts'
+import { RootState } from '@store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveNewWorkspace, startAddingWorkspace } from '@store/slices'
 
 import { Icon } from '@components/common/icon'
 
-import './AddWorkspaceButton.scss'
+import styles from './AddWorkspaceButton.module.scss'
 
 export const AddWorkspaceButton = () => {
   const dispatch = useDispatch()
@@ -28,16 +28,18 @@ export const AddWorkspaceButton = () => {
 
   return (
     <button
-      className={`add-workspace-button ${isAddingWorkspace && !isButtonDisabled ? 'add-workspace-button--add' : ''}`}
+      className={`${styles.root} ${isAddingWorkspace && !isButtonDisabled ? styles.rootSave : ''}`}
       onClick={handleClick}
       disabled={isButtonDisabled}
     >
       {isAddingWorkspace ? (
         <Icon type={IconType.Save} />
       ) : (
-        <Icon type={IconType.Add} />
+        <Icon type={IconType.Create} />
       )}
-      {isAddingWorkspace ? 'Save new workspace' : 'Create workspace'}
+      {isAddingWorkspace
+        ? AddWorkspaceButtonType.Create
+        : AddWorkspaceButtonType.Save}
     </button>
   )
 }

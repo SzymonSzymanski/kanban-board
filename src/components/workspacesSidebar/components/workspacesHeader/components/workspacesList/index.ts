@@ -1,1 +1,1 @@
-export * from './WorkspacesList.tsx';
+export * from './WorkspacesList'

@@ -24,17 +24,23 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@assets/*": [
-        "./src/assets/*"
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@types": [
+        "./src/types"
+      ],
+      "@enums": [
+        "./src/enums"
       ],
       "@styles/*": [
         "./src/styles/*"
       ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
       "@components/*": [
         "./src/components/*"
-      ],
-      "@store/*": [
-        "./src/store/*"
       ]
     }
   },

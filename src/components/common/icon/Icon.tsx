@@ -1,8 +1,8 @@
-import { IconType } from './IconTypes'
+import { IconType } from '@enums'
 
-import { Add, Edit, Remove, Save } from '@assets/icons'
+import { Create, Edit, Remove, Save } from '@assets/icons'
 
-import './Icon.scss'
+import styles from './Icon.module.scss'
 
 interface PropInterface {
   type: IconType
@@ -11,8 +11,8 @@ interface PropInterface {
 export const Icon = ({ type }: PropInterface) => {
   const renderIcon = () => {
     switch (type) {
-      case IconType.Add:
-        return <Add />
+      case IconType.Create:
+        return <Create />
       case IconType.Remove:
         return <Remove />
       case IconType.Edit:
@@ -24,5 +24,5 @@ export const Icon = ({ type }: PropInterface) => {
     }
   }
 
-  return <div className="icon">{renderIcon()}</div>
+  return <div className={styles.icon}>{renderIcon()}</div>
 }

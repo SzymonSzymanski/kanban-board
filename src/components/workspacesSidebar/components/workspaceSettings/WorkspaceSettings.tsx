@@ -1,10 +1,10 @@
 import { Settings } from '@assets/icons'
 
-import './WorkspaceSettings.scss'
+import styles from './WorkspaceSettings.module.scss'
 
 export const WorkspaceSettings = () => {
   return (
-    <button className="workspace-settings">
+    <button className={styles.root}>
       <Settings />
     </button>
   )

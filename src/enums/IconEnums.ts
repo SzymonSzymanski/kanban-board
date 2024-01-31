@@ -1,5 +1,5 @@
 export enum IconType {
-  Add = 'add',
+  Create = 'create',
   Remove = 'remove',
   Edit = 'edit',
   Save = 'save',

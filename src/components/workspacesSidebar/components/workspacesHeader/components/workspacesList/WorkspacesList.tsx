@@ -1,12 +1,12 @@
 import { ChangeEvent } from 'react'
-import { RootState } from '@store/store.ts'
 
+import { RootState } from '@store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNewWorkspaceName } from '@store/slices'
 
 import { Workspace } from './components/workspace'
 
-import './WorkspacesList.scss'
+import styles from './WorkspacesList.module.scss'
 
 export const WorkspacesList = () => {
   const { workspaces, isAddingWorkspace, newWorkspaceDetails } = useSelector(
@@ -19,7 +19,7 @@ export const WorkspacesList = () => {
   }
 
   return (
-    <div className="workspaces-list">
+    <div className={styles.root}>
       {Object.values(workspaces).map(workspace => (
         <Workspace
           key={workspace.id}

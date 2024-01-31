@@ -1,0 +1,14 @@
+@use '@styles/mixins' as *;
+
+.root {
+  @include icon-hover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.1s;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}

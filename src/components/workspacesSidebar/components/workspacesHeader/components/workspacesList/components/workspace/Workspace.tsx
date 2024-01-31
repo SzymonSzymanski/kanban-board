@@ -1,15 +1,8 @@
-import { ChangeEventHandler } from 'react'
+import { WorkspaceProps } from '@types'
 
 import { Edit, Remove, WorkspaceDefault } from '@assets/icons'
 
-import './Workspace.scss'
-
-interface WorkspaceProps {
-  icon: boolean
-  name: string
-  isEditing: boolean
-  onNameChange?: ChangeEventHandler<HTMLInputElement>
-}
+import styles from './Workspace.module.scss'
 
 export const Workspace = ({
   icon,
@@ -18,13 +11,14 @@ export const Workspace = ({
   onNameChange,
 }: WorkspaceProps) => {
   return (
-    <div className="workspace">
+    <div className={styles.root} title={name}>
       {icon && <WorkspaceDefault />}
       {!icon && (
-        <span className="workspace__icon">{name.charAt(0).toUpperCase()}</span>
+        <span className={styles.icon}>{name.charAt(0).toUpperCase()}</span>
       )}
       {isEditing ? (
         <input
+          className={styles.input}
           type="text"
           value={name}
           onChange={onNameChange}
@@ -32,12 +26,12 @@ export const Workspace = ({
           autoFocus
         />
       ) : (
-        <span>{name}</span>
+        <span className={styles.name}>{name}</span>
       )}
       {!isEditing && (
-        <div className="workspace__controls">
-          <Edit />
-          <Remove />
+        <div className={styles.controls}>
+          <Edit className={`${styles.controlIcon} ${styles.edit}`} />
+          <Remove className={`${styles.controlIcon} ${styles.remove}`} />
         </div>
       )}
     </div>

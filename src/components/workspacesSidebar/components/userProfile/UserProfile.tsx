@@ -1,6 +1,6 @@
-import Images from '@assets/images'
+import { Images } from '@assets/images'
 
-import './UserProfile.scss'
+import styles from './UserProfile.module.scss'
 
 export const UserProfile = () => {
   const user = {
@@ -9,9 +9,9 @@ export const UserProfile = () => {
   }
 
   return (
-    <div className="user-profile">
-      <img src={user.image} alt={user.name} />
-      <span>{user.name}</span>
+    <div className={styles.root}>
+      <img className={styles.image} src={user.image} alt={user.name} />
+      <span className={styles.name}>{user.name}</span>
     </div>
   )
 }

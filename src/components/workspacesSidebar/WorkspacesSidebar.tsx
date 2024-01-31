@@ -1,17 +1,17 @@
+import { WorkspacesHeader } from './components/workspacesHeader'
 import { UserProfile } from './components/userProfile'
 import { WorkspaceSettings } from './components/workspaceSettings'
-import { WorkspacesHeader } from './components/workspacesHeader'
 
-import './WorkspacesSidebar.scss'
+import styles from './WorkspacesSidebar.module.scss'
 
 export const WorkspacesSidebar = () => {
   return (
-    <div className="workspaces-sidebar">
-      <div className="workspaces-sidebar__header">
+    <div className={styles.root}>
+      <div className={styles.header}>
         <WorkspacesHeader />
       </div>
-      <div className="workspaces-sidebar__main"></div>
-      <div className="workspaces-sidebar__footer">
+      <div className={styles.main}></div>
+      <div className={styles.footer}>
         <UserProfile />
         <WorkspaceSettings />
       </div>

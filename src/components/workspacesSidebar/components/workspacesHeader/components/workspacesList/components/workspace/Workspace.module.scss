@@ -1,0 +1,98 @@
+@use '@styles/mixins' as *;
+@use '@styles/variables' as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: grab;
+  border-radius: 8px;
+  background: #f4f7fe;
+  padding: 16px;
+  color: #001c39;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &:hover {
+    .controls {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #b3c4d6;
+  width: 32px;
+  height: 32px;
+  color: #001c39;
+}
+
+.input {
+  flex: 1;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  color: #001c39;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &::placeholder {
+    color: rgba($blue-dark-typography, 0.5);
+  }
+}
+
+.name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.controls {
+  display: flex;
+  position: relative;
+  gap: 12px;
+  opacity: 0;
+  z-index: 0;
+  transition: 0.1s opacity;
+  cursor: default;
+  margin-left: auto;
+  padding: 6px 0;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    width: 130%;
+    height: 100%;
+    content: '';
+  }
+}
+
+.controlIcon {
+  @include icon-hover;
+  cursor: pointer;
+  pointer-events: initial;
+}
+
+.edit {
+  color: $blue-dark-typography;
+}
+
+.remove {
+  color: $red;
+}

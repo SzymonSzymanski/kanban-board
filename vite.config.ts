@@ -8,13 +8,15 @@ export default defineConfig({
   server: { port: 3000 },
   resolve: {
     alias: [
-      { find: '@assets', replacement: resolve(__dirname, 'src/assets') },
+      { find: '@store', replacement: resolve(__dirname, 'src/store') },
+      { find: '@types', replacement: resolve(__dirname, 'src/types') },
+      { find: '@enums', replacement: resolve(__dirname, 'src/enums') },
       { find: '@styles', replacement: resolve(__dirname, 'src/styles') },
+      { find: '@assets', replacement: resolve(__dirname, 'src/assets') },
       {
         find: '@components',
         replacement: resolve(__dirname, 'src/components'),
       },
-      { find: '@store', replacement: resolve(__dirname, 'src/store') },
     ],
   },
 })

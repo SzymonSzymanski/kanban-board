@@ -1,11 +1,11 @@
 import { WorkspacesList } from './components/workspacesList'
 import { AddWorkspaceButton } from './components/addWorkspaceButton'
 
-import './WorkspacesHeader.scss'
+import styles from './WorkspacesHeader.module.scss'
 
 export const WorkspacesHeader = () => {
   return (
-    <div className="workspace-header">
+    <div className={styles.root}>
       <WorkspacesList />
       <AddWorkspaceButton />
     </div>
