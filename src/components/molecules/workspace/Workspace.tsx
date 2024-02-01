@@ -1,4 +1,4 @@
-import { WorkspaceProps } from '@types'
+import { WorkspaceProps } from '.'
 
 import { Edit, Remove, WorkspaceDefault } from '@assets/icons'
 

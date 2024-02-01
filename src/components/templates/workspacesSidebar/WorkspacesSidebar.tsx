@@ -1,6 +1,6 @@
-import { WorkspacesHeader } from './components/workspacesHeader'
-import { UserProfile } from './components/userProfile'
-import { WorkspaceSettings } from './components/workspaceSettings'
+import { WorkspacesHeader } from '@components/organisms/workspacesHeader'
+import { UserProfile } from '@components/atoms/userProfile'
+import { WorkspaceSettings } from '@components/atoms/workspaceSettings'
 
 import styles from './WorkspacesSidebar.module.scss'
 

@@ -1,4 +1,4 @@
-import { WorkspacesSidebar } from '@components/workspacesSidebar'
+import { WorkspacesSidebar } from '@components/templates/workspacesSidebar'
 
 import styles from './App.module.scss'
 

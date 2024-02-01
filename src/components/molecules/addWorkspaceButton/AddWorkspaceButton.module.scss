@@ -1,13 +1,12 @@
 @use '@styles/variables' as *;
+@use '@styles/functions' as *;
 
 .root {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
-  transition:
-    0.1s background-color,
-    color;
+  transition: transition(background-color);
   cursor: pointer;
   box-shadow: $workspace-button;
   border: 1px solid $border-color;
@@ -21,6 +20,10 @@
   line-height: 20px;
   font-family: Inter, sans-serif;
 
+  &:hover:not(&Save) {
+    background-color: $grayscale-color-100;
+  }
+
   &:focus {
     outline: none;
   }
@@ -29,6 +32,10 @@
     border: 1px solid $blue;
     background-color: $blue;
     color: $grayscale-base-color;
+
+    &:hover {
+      background-color: rgba($blue, 0.92);
+    }
   }
 
   &[disabled] {

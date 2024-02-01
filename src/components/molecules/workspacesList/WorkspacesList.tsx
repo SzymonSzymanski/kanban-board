@@ -4,7 +4,7 @@ import { RootState } from '@store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateNewWorkspaceName } from '@store/slices'
 
-import { Workspace } from './components/workspace'
+import { Workspace } from '@components/molecules/workspace'
 
 import styles from './WorkspacesList.module.scss'
 

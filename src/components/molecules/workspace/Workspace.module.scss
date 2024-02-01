@@ -1,5 +1,6 @@
 @use '@styles/mixins' as *;
 @use '@styles/variables' as *;
+@use '@styles/functions' as *;
 
 .root {
   display: flex;
@@ -66,7 +67,7 @@
   gap: 12px;
   opacity: 0;
   z-index: 0;
-  transition: 0.1s opacity;
+  transition: transition(opacity);
   cursor: default;
   margin-left: auto;
   padding: 6px 0;

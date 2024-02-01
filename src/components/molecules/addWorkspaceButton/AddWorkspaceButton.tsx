@@ -1,10 +1,11 @@
-import { AddWorkspaceButtonType, IconType } from '@enums'
+import { IconType } from '@enums'
+import { ButtonType } from '.'
 
 import { RootState } from '@store/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveNewWorkspace, startAddingWorkspace } from '@store/slices'
 
-import { Icon } from '@components/common/icon'
+import { Icon } from '@components/atoms/icon'
 
 import styles from './AddWorkspaceButton.module.scss'
 
@@ -37,9 +38,7 @@ export const AddWorkspaceButton = () => {
       ) : (
         <Icon type={IconType.Create} />
       )}
-      {isAddingWorkspace
-        ? AddWorkspaceButtonType.Create
-        : AddWorkspaceButtonType.Save}
+      {isAddingWorkspace ? ButtonType.Create : ButtonType.Save}
     </button>
   )
 }

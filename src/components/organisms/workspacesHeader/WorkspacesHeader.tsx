@@ -1,5 +1,5 @@
-import { WorkspacesList } from './components/workspacesList'
-import { AddWorkspaceButton } from './components/addWorkspaceButton'
+import { WorkspacesList } from '@components/molecules/workspacesList'
+import { AddWorkspaceButton } from '@components/molecules/addWorkspaceButton'
 
 import styles from './WorkspacesHeader.module.scss'
 
