@@ -1,0 +1,36 @@
+@use '@styles/mixins' as *;
+@use '@styles/variables' as *;
+
+.root {
+  display: flex;
+  position: relative;
+  gap: 12px;
+  z-index: 0;
+  cursor: default;
+  padding: 6px 0;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    width: 130%;
+    height: 100%;
+    content: '';
+  }
+}
+
+.icon {
+  @include icon-hover;
+  cursor: pointer;
+}
+
+.edit,
+.save {
+  color: $blue-dark-typography;
+}
+
+.remove {
+  color: $red;
+}

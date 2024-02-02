@@ -1,4 +1,4 @@
 export enum ButtonType {
-  Create = 'Save new workspace',
-  Save = 'Create workspace',
+  Save = 'Save new workspace',
+  Create = 'Create workspace',
 }

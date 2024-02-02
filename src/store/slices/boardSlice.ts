@@ -15,6 +15,7 @@ const initialState: BoardInterface = {
     [initialWorkspace.id]: initialWorkspace,
   },
   isAddingWorkspace: false,
+  isEditingWorkspace: false,
   newWorkspaceDetails: null,
 }
 
@@ -23,7 +24,7 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     // Workspace Reducers
-    startAddingWorkspace: state => {
+    createNewWorkspace: state => {
       state.isAddingWorkspace = true
       state.newWorkspaceDetails = {
         id: uuidv4(),
@@ -36,10 +37,6 @@ export const boardSlice = createSlice({
       if (state.newWorkspaceDetails) {
         state.newWorkspaceDetails.name = action.payload
       }
-    },
-    cancelAddingWorkspace: state => {
-      state.isAddingWorkspace = false
-      state.newWorkspaceDetails = null
     },
     saveNewWorkspace: state => {
       if (
@@ -54,16 +51,16 @@ export const boardSlice = createSlice({
         state.newWorkspaceDetails = null
       }
     },
-    addWorkspace: (state, action: PayloadAction<Workspace>) => {
+    saveWorkspace: (state, action: PayloadAction<Workspace>) => {
       const workspace = action.payload
       state.workspaces[workspace.id] = workspace
     },
-    updateWorkspace: (state, action: PayloadAction<Workspace>) => {
-      const workspace = action.payload
-      state.workspaces[workspace.id] = workspace
-    },
-    deleteWorkspace: (state, action: PayloadAction<string>) => {
-      delete state.workspaces[action.payload]
+    deleteWorkspace: (
+      state,
+      action: PayloadAction<{ workspaceId: string }>
+    ) => {
+      const { workspaceId } = action.payload
+      delete state.workspaces[workspaceId]
     },
 
     // Task Group Reducers
@@ -157,12 +154,10 @@ export const boardSlice = createSlice({
 })
 
 export const {
-  startAddingWorkspace,
+  createNewWorkspace,
   updateNewWorkspaceName,
-  cancelAddingWorkspace,
   saveNewWorkspace,
-  addWorkspace,
-  updateWorkspace,
+  saveWorkspace,
   deleteWorkspace,
   addTaskGroup,
   updateTaskGroup,

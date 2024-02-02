@@ -20,7 +20,7 @@
   line-height: 20px;
   font-family: Inter, sans-serif;
 
-  &:hover:not(&Save) {
+  &:hover:not(&Save, &[disabled]) {
     background-color: $grayscale-color-100;
   }
 

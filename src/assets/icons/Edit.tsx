@@ -1,9 +1,6 @@
-import { IconProps } from '@types'
-
-export const Edit = ({ className }: IconProps) => {
+export const Edit = () => {
   return (
     <svg
-      className={className}
       width="16"
       height="16"
       viewBox="0 0 16 16"

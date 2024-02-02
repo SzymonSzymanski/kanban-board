@@ -1,9 +1,9 @@
-import { IconType } from '@enums'
-import { ButtonType } from '.'
-
 import { RootState } from '@store/store'
+import { ButtonType } from '.'
+import { IconType } from '@enums'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { saveNewWorkspace, startAddingWorkspace } from '@store/slices'
+import { createNewWorkspace, saveNewWorkspace } from '@store/slices'
 
 import { Icon } from '@components/atoms/icon'
 
@@ -15,17 +15,17 @@ export const AddWorkspaceButton = () => {
     (state: RootState) => state.board
   )
 
+  const canSave = newWorkspaceDetails?.name.trim() !== ''
+
+  const isButtonDisabled = isAddingWorkspace && !canSave
+
   const handleClick = () => {
-    if (isAddingWorkspace) {
+    if (isAddingWorkspace && canSave) {
       dispatch(saveNewWorkspace())
     } else {
-      dispatch(startAddingWorkspace())
+      dispatch(createNewWorkspace())
     }
   }
-
-  const isButtonDisabled =
-    isAddingWorkspace &&
-    (!newWorkspaceDetails || newWorkspaceDetails.name.trim() === '')
 
   return (
     <button
@@ -38,7 +38,7 @@ export const AddWorkspaceButton = () => {
       ) : (
         <Icon type={IconType.Create} />
       )}
-      {isAddingWorkspace ? ButtonType.Create : ButtonType.Save}
+      {isAddingWorkspace ? ButtonType.Save : ButtonType.Create}
     </button>
   )
 }

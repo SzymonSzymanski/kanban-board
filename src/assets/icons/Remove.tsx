@@ -1,9 +1,6 @@
-import { IconProps } from '@types'
-
-export const Remove = ({ className }: IconProps) => {
+export const Remove = () => {
   return (
     <svg
-      className={className}
       width="16"
       height="16"
       viewBox="0 0 16 16"

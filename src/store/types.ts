@@ -29,5 +29,6 @@ export interface Workspace {
 export interface BoardInterface {
   workspaces: Record<string, Workspace>
   isAddingWorkspace: boolean
+  isEditingWorkspace: boolean
   newWorkspaceDetails: Workspace | null
 }
