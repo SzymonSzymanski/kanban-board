@@ -1,0 +1,13 @@
+@use '@styles/variables' as *;
+
+@function transition($property, $duration: $animation-duration-default) {
+  @if ($property and $property != 'all') {
+    @return $duration $property;
+  }
+
+  @if ($property == 'all') {
+    @error 'Transition function: $property can\'t be \'all\'';
+  }
+
+  @error 'Transition function: pass $property';
+}

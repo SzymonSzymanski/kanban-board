@@ -1,0 +1,8 @@
+@use '@styles/functions' as *;
+
+@mixin icon-hover {
+  transition: transition(opacity);
+  &:hover {
+    opacity: 0.8;
+  }
+}

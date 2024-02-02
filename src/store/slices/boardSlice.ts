@@ -1,6 +1,7 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { BoardInterface, Subtask, Task, TaskGroup, Workspace } from '../types'
-import { v4 as uuidv4 } from 'uuid'
 
 const initialWorkspace: Workspace = {
   id: uuidv4(),
@@ -14,6 +15,7 @@ const initialState: BoardInterface = {
     [initialWorkspace.id]: initialWorkspace,
   },
   isAddingWorkspace: false,
+  isEditingWorkspace: false,
   newWorkspaceDetails: null,
 }
 
@@ -22,7 +24,7 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     // Workspace Reducers
-    startAddingWorkspace: state => {
+    createNewWorkspace: state => {
       state.isAddingWorkspace = true
       state.newWorkspaceDetails = {
         id: uuidv4(),
@@ -35,10 +37,6 @@ export const boardSlice = createSlice({
       if (state.newWorkspaceDetails) {
         state.newWorkspaceDetails.name = action.payload
       }
-    },
-    cancelAddingWorkspace: state => {
-      state.isAddingWorkspace = false
-      state.newWorkspaceDetails = null
     },
     saveNewWorkspace: state => {
       if (
@@ -53,21 +51,22 @@ export const boardSlice = createSlice({
         state.newWorkspaceDetails = null
       }
     },
-    addWorkspace: (state, action: PayloadAction<Workspace>) => {
+    saveWorkspace: (state, action: PayloadAction<Workspace>) => {
       const workspace = action.payload
       state.workspaces[workspace.id] = workspace
     },
-    updateWorkspace: (state, action: PayloadAction<Workspace>) => {
-      const workspace = action.payload
-      state.workspaces[workspace.id] = workspace
-    },
-    deleteWorkspace: (state, action: PayloadAction<string>) => {
-      delete state.workspaces[action.payload]
+    deleteWorkspace: (
+      state,
+      action: PayloadAction<{ workspaceId: string }>
+    ) => {
+      const { workspaceId } = action.payload
+      delete state.workspaces[workspaceId]
     },
 
     // Task Group Reducers
     addTaskGroup: (state, action: PayloadAction<TaskGroup>) => {
       const taskGroup = action.payload
+
       if (state.workspaces[taskGroup.workspaceId]) {
         state.workspaces[taskGroup.workspaceId].taskGroups[taskGroup.id] =
           taskGroup
@@ -75,6 +74,7 @@ export const boardSlice = createSlice({
     },
     updateTaskGroup: (state, action: PayloadAction<TaskGroup>) => {
       const taskGroup = action.payload
+
       if (state.workspaces[taskGroup.workspaceId]) {
         state.workspaces[taskGroup.workspaceId].taskGroups[taskGroup.id] =
           taskGroup
@@ -85,6 +85,7 @@ export const boardSlice = createSlice({
       action: PayloadAction<{ workspaceId: string; taskGroupId: string }>
     ) => {
       const { workspaceId, taskGroupId } = action.payload
+
       if (state.workspaces[workspaceId]) {
         delete state.workspaces[workspaceId].taskGroups[taskGroupId]
       }
@@ -94,6 +95,7 @@ export const boardSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       const task = action.payload
       const taskGroups = state.workspaces[task.taskGroupId]?.taskGroups
+
       if (taskGroups) {
         taskGroups[task.taskGroupId].tasks[task.id] = task
       }
@@ -101,6 +103,7 @@ export const boardSlice = createSlice({
     updateTask: (state, action: PayloadAction<Task>) => {
       const task = action.payload
       const taskGroups = state.workspaces[task.taskGroupId]?.taskGroups
+
       if (taskGroups) {
         taskGroups[task.taskGroupId].tasks[task.id] = task
       }
@@ -111,6 +114,7 @@ export const boardSlice = createSlice({
     ) => {
       const { taskGroupId, taskId } = action.payload
       const taskGroups = state.workspaces[taskGroupId]?.taskGroups
+
       if (taskGroups) {
         delete taskGroups[taskGroupId].tasks[taskId]
       }
@@ -121,6 +125,7 @@ export const boardSlice = createSlice({
       const subtask = action.payload
       const tasks =
         state.workspaces[subtask.taskId]?.taskGroups[subtask.taskId]?.tasks
+
       if (tasks) {
         tasks[subtask.taskId].subtasks[subtask.id] = subtask
       }
@@ -129,6 +134,7 @@ export const boardSlice = createSlice({
       const subtask = action.payload
       const tasks =
         state.workspaces[subtask.taskId]?.taskGroups[subtask.taskId]?.tasks
+
       if (tasks) {
         tasks[subtask.taskId].subtasks[subtask.id] = subtask
       }
@@ -139,6 +145,7 @@ export const boardSlice = createSlice({
     ) => {
       const { taskId, subtaskId } = action.payload
       const tasks = state.workspaces[taskId]?.taskGroups[taskId]?.tasks
+
       if (tasks) {
         delete tasks[taskId].subtasks[subtaskId]
       }
@@ -147,12 +154,10 @@ export const boardSlice = createSlice({
 })
 
 export const {
-  startAddingWorkspace,
+  createNewWorkspace,
   updateNewWorkspaceName,
-  cancelAddingWorkspace,
   saveNewWorkspace,
-  addWorkspace,
-  updateWorkspace,
+  saveWorkspace,
   deleteWorkspace,
   addTaskGroup,
   updateTaskGroup,

@@ -1,0 +1,66 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+
+.root {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: grab;
+  border-radius: 8px;
+  background: #f4f7fe;
+  padding: 16px;
+  color: #001c39;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &:hover {
+    .controls {
+      opacity: 1;
+    }
+  }
+}
+
+.icon {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #b3c4d6;
+  width: 32px;
+  height: 32px;
+  color: #001c39;
+}
+
+.input {
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  overflow: hidden;
+  color: #001c39;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &::placeholder {
+    color: rgba($blue-dark-typography, 0.5);
+  }
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.controls {
+  opacity: 0;
+  transition: transition(opacity);
+  margin-left: auto;
+}
