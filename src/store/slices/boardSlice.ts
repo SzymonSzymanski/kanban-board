@@ -1,23 +1,9 @@
-import { v4 as uuidv4 } from 'uuid'
-
+import { Subtask, Task, TaskGroup, Workspace } from '../types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { BoardInterface, Subtask, Task, TaskGroup, Workspace } from '../types'
 
-const initialWorkspace: Workspace = {
-  id: uuidv4(),
-  name: 'Acme Corp workspace',
-  icon: true,
-  taskGroups: {},
-}
+import { boardInitialState as initialState } from '@store/initialState/boardInitialState'
 
-const initialState: BoardInterface = {
-  workspaces: {
-    [initialWorkspace.id]: initialWorkspace,
-  },
-  isAddingWorkspace: false,
-  isEditingWorkspace: false,
-  newWorkspaceDetails: null,
-}
+import { v4 as uuidv4 } from 'uuid'
 
 export const boardSlice = createSlice({
   name: 'board',

@@ -1,0 +1,34 @@
+@use '@styles/functions' as *;
+@use '@styles/variables' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transition(color);
+  cursor: pointer;
+  color: $grayscale-color-300;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &Active {
+    color: $blue;
+  }
+
+  &:hover {
+    color: $blue;
+    text-decoration: underline;
+  }
+}
