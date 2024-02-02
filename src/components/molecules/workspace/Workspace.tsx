@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useState } from 'react'
 
 import { RootState } from '@store/store'
 import { WorkspaceProps } from '.'
+import { IconType } from '@enums'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -10,8 +11,8 @@ import {
   updateNewWorkspaceName,
 } from '@store/slices'
 
+import { Icon } from '@components/atoms/icon'
 import { WorkspaceControls } from '@components/molecules/workspaceControls'
-import { WorkspaceDefault } from '@assets/icons'
 
 import styles from './Workspace.module.scss'
 
@@ -50,7 +51,7 @@ export const Workspace = ({ id, icon, name, isEditing }: WorkspaceProps) => {
   return (
     <div className={styles.root} title={workspaceName}>
       {icon ? (
-        <WorkspaceDefault />
+        <Icon type={IconType.WorkspaceDefault} />
       ) : (
         <span className={styles.icon}>
           {workspaceName.charAt(0).toUpperCase()}

@@ -1,28 +1,44 @@
-import { MouseEventHandler } from 'react'
-
+import { PropInterface } from '.'
 import { IconType } from '@enums'
 
-import { Create, Edit, Remove, Save } from '@assets/icons'
+import {
+  Boards,
+  Create,
+  Dashboard,
+  Edit,
+  Profile,
+  Remove,
+  Save,
+  Search,
+  Settings,
+  WorkspaceDefault,
+} from '@assets/icons'
 
 import styles from './Icon.module.scss'
-
-interface PropInterface {
-  type: IconType
-  onClick?: MouseEventHandler<HTMLDivElement>
-  className?: string
-}
 
 export const Icon = ({ type, onClick, className }: PropInterface) => {
   const renderIcon = () => {
     switch (type) {
+      case IconType.Boards:
+        return <Boards />
       case IconType.Create:
         return <Create />
-      case IconType.Remove:
-        return <Remove />
+      case IconType.Dashboard:
+        return <Dashboard />
       case IconType.Edit:
         return <Edit />
+      case IconType.Profile:
+        return <Profile />
+      case IconType.Remove:
+        return <Remove />
       case IconType.Save:
         return <Save />
+      case IconType.Search:
+        return <Search />
+      case IconType.Settings:
+        return <Settings />
+      case IconType.WorkspaceDefault:
+        return <WorkspaceDefault />
       default:
         return null
     }
