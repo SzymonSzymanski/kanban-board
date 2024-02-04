@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react'
 
 import { IconType } from '@enums'
 
-export interface PropInterface {
+export interface IconProps {
   type: IconType
   onClick?: MouseEventHandler<HTMLDivElement>
   className?: string

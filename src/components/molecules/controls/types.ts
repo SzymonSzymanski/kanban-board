@@ -6,5 +6,5 @@ export interface WorkspaceControlsProps {
   onSave: MouseEventHandler<HTMLDivElement>
   onRemove: MouseEventHandler<HTMLDivElement>
   canSave: boolean
-  className: string
+  className?: string
 }

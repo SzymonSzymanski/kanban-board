@@ -1,6 +1,6 @@
 import { IconType } from '@enums'
 
-export interface Tab {
+export interface TabTypes {
   id: string
   icon: IconType
   name: string

@@ -25,7 +25,9 @@ export const Board = () => {
               isEditing={taskGroup.isEditing}
             />
           ))}
-          <AddTaskGroupButton workspaceId={workspaceId} />
+          <div className={styles.addButton}>
+            <AddTaskGroupButton workspaceId={workspaceId} />
+          </div>
         </>
       )}
     </div>

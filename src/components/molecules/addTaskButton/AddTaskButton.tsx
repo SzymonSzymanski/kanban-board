@@ -1,47 +1,41 @@
 import { RootState } from '@store/store'
-import { ButtonType, ButtonTypes } from '.'
+import { ButtonProps, ButtonType } from '.'
 import { IconType } from '@enums'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addTask, updateTask } from '@store/slices'
+import { addTask } from '@store/slices'
 
+import { Text, TextType } from '@components/atoms/text'
 import { Icon } from '@components/atoms/icon'
 
 import styles from './AddTaskButton.module.scss'
 
-export const AddTaskButton = ({ workspaceId, taskGroupId }: ButtonTypes) => {
+export const AddTaskButton = ({ workspaceId, taskGroupId }: ButtonProps) => {
   const dispatch = useDispatch()
-  const { workspaces } = useSelector((state: RootState) => state.board)
 
-  const workspace = workspaces[workspaceId]
+  const workspace = useSelector(
+    (state: RootState) => state.board.workspaces[workspaceId]
+  )
   const taskGroup = workspace.taskGroups[taskGroupId]
 
   const editingTask = Object.values(taskGroup.tasks).find(
     task => task.isEditing
   )
 
-  const canSave = editingTask?.content.trim() !== ''
-
   const handleClick = () => {
-    if (canSave && editingTask) {
-      dispatch(updateTask({ ...editingTask, isEditing: false }))
-    } else {
+    if (!editingTask) {
       dispatch(addTask({ workspaceId, taskGroupId }))
     }
   }
 
   return (
     <button
-      className={`${styles.root} ${canSave ? styles.rootSave : ''}`}
+      className={styles.root}
       onClick={handleClick}
-      disabled={!canSave}
+      disabled={!!editingTask}
     >
-      {editingTask ? (
-        <Icon type={IconType.Save} />
-      ) : (
-        <Icon type={IconType.Create} />
-      )}
-      {editingTask ? ButtonType.Save : ButtonType.Add}
+      <Icon type={IconType.Create} />
+      <Text type={TextType.text_20_600}>{ButtonType.Add}</Text>
     </button>
   )
 }

@@ -1,4 +1,4 @@
-import { PropInterface } from '.'
+import { IconProps } from '.'
 import { IconType } from '@enums'
 
 import {
@@ -16,7 +16,7 @@ import {
 
 import styles from './Icon.module.scss'
 
-export const Icon = ({ type, onClick, className }: PropInterface) => {
+export const Icon = ({ type, onClick, className }: IconProps) => {
   const renderIcon = () => {
     switch (type) {
       case IconType.Boards:

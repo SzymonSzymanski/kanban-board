@@ -1,20 +1,12 @@
 .root {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+  gap: 8px;
 }
 
 .image {
-  margin-right: 8px;
   border-radius: 50%;
   width: 32px;
   height: 32px;
-}
-
-.name {
-  color: #000;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 1.4;
+  object-fit: cover;
 }

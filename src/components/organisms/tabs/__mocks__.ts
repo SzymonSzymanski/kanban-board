@@ -1,9 +1,9 @@
-import { Tab } from '.'
+import { TabTypes } from '.'
 import { IconType } from '@enums'
 
 import { v4 as uuidv4 } from 'uuid'
 
-export const tabsMock: Tab[] = [
+export const tabsMock: TabTypes[] = [
   {
     id: uuidv4(),
     icon: IconType.Dashboard,

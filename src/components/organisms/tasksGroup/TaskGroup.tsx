@@ -52,7 +52,9 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
     (event: MouseEvent) => {
       event.stopPropagation()
       setIsEditingLocal(false)
-      dispatch(updateTaskGroup({ ...taskGroup, name: taskGroupName }))
+      dispatch(
+        updateTaskGroup({ ...taskGroup, name: taskGroupName, isEditing: false })
+      )
     },
     [dispatch, taskGroup, taskGroupName]
   )
@@ -75,7 +77,7 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
           onEdit={handleEdit}
           onSave={handleSave}
           onRemove={handleRemove}
-          canSave={taskGroupName.trim() !== '' && !isEditing}
+          canSave={taskGroupName.trim() !== ''}
           className={styles.controls}
         />
       </div>
