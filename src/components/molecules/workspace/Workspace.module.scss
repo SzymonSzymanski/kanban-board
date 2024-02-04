@@ -1,4 +1,5 @@
 @use '@styles/variables' as *;
+@use '@styles/mixins' as *;
 @use '@styles/functions' as *;
 
 .root {
@@ -41,21 +42,7 @@
 }
 
 .input {
-  outline: 0;
-  border: 0;
-  background-color: transparent;
-  padding: 0;
-  overflow: hidden;
-  color: $blue-dark-typography;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 18px;
-  font-family: Inter, sans-serif;
-
-  &::placeholder {
-    color: rgba($blue-dark-typography, 0.5);
-  }
+  @include input($text-18-600);
 }
 
 .name {

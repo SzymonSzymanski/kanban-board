@@ -1,4 +1,5 @@
 @use '@styles/variables' as *;
+@use '@styles/mixins' as *;
 @use '@styles/functions' as *;
 
 .root {
@@ -10,12 +11,24 @@
   background-color: $midnight-blue-400;
   padding: 11px 8px 8px;
   width: 294px;
+
+  &Editing {
+    padding: 11px 8px;
+
+    .header {
+      padding: 0 8px;
+    }
+  }
 }
 
 .tasks {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  & + .addButton {
+    margin-top: 8px;
+  }
 }
 
 .header {
@@ -33,17 +46,7 @@
 }
 
 .input {
-  outline: 0;
-  border: 0;
-  background-color: transparent;
-  padding: 0;
-  overflow: hidden;
-  color: $blue-dark-typography;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 18px;
-  font-family: Inter, sans-serif;
+  @include input($text-18-600);
 }
 
 .name {

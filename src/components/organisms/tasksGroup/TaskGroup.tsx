@@ -60,12 +60,15 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
   )
 
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} ${isEditing ? styles.rootEditing : ''}`}>
       <div className={styles.header}>
         {isEditing || isEditingLocal ? (
           <input
             className={styles.input}
             value={taskGroupName}
+            placeholder={
+              isEditing ? 'Title of the new list...' : 'Title of the list'
+            }
             onChange={handleInputChange}
             autoFocus
           />
@@ -81,7 +84,7 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
           className={styles.controls}
         />
       </div>
-      {taskGroup.tasks && (
+      {Object.keys(taskGroup.tasks).length > 0 && (
         <div className={styles.tasks}>
           {Object.values(taskGroup.tasks).map(task => (
             <Task
@@ -96,7 +99,9 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
         </div>
       )}
       {!isEditing && (
-        <AddTaskButton workspaceId={workspaceId} taskGroupId={id} />
+        <div className={styles.addButton}>
+          <AddTaskButton workspaceId={workspaceId} taskGroupId={id} />
+        </div>
       )}
     </div>
   )

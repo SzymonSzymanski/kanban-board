@@ -69,7 +69,7 @@ export const Task = ({
           value={task.content}
           onChange={handleInputChange}
           placeholder={
-            isEditing ? 'Title of the new card...' : 'New title of the card...'
+            isEditing ? 'Title of the new card...' : 'Title of the card...'
           }
           autoFocus
         />
