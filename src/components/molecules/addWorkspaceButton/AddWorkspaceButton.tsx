@@ -3,7 +3,7 @@ import { ButtonType } from '.'
 import { IconType } from '@enums'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { createNewWorkspace, saveNewWorkspace } from '@store/slices'
+import { addWorkspace, updateWorkspace } from '@store/slices'
 
 import { Icon } from '@components/atoms/icon'
 
@@ -11,34 +11,34 @@ import styles from './AddWorkspaceButton.module.scss'
 
 export const AddWorkspaceButton = () => {
   const dispatch = useDispatch()
-  const { isAddingWorkspace, newWorkspaceDetails } = useSelector(
-    (state: RootState) => state.board
+  const { workspaces } = useSelector((state: RootState) => state.board)
+
+  const editingWorkspace = Object.values(workspaces).find(
+    workspace => workspace.isEditing
   )
 
-  const canSave = newWorkspaceDetails?.name.trim() !== ''
-
-  const isButtonDisabled = isAddingWorkspace && !canSave
+  const canSave = editingWorkspace?.name.trim() !== ''
 
   const handleClick = () => {
-    if (isAddingWorkspace && canSave) {
-      dispatch(saveNewWorkspace())
+    if (canSave && editingWorkspace) {
+      dispatch(updateWorkspace({ ...editingWorkspace, isEditing: false }))
     } else {
-      dispatch(createNewWorkspace())
+      dispatch(addWorkspace())
     }
   }
 
   return (
     <button
-      className={`${styles.root} ${isAddingWorkspace && !isButtonDisabled ? styles.rootSave : ''}`}
+      className={`${styles.root} ${canSave ? styles.rootSave : ''}`}
       onClick={handleClick}
-      disabled={isButtonDisabled}
+      disabled={!canSave}
     >
-      {isAddingWorkspace ? (
+      {editingWorkspace ? (
         <Icon type={IconType.Save} />
       ) : (
         <Icon type={IconType.Create} />
       )}
-      {isAddingWorkspace ? ButtonType.Save : ButtonType.Create}
+      {editingWorkspace ? ButtonType.Save : ButtonType.Create}
     </button>
   )
 }

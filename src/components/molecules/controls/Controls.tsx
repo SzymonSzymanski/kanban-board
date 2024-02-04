@@ -3,9 +3,9 @@ import { IconType } from '@enums'
 
 import { Icon } from '@components/atoms/icon'
 
-import styles from './WorkspaceControls.module.scss'
+import styles from './Controls.module.scss'
 
-export const WorkspaceControls = ({
+export const Controls = ({
   isEditing,
   onEdit,
   onSave,

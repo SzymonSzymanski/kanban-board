@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, MouseEvent, useCallback, useState } from 'react'
 
 import { RootState } from '@store/store'
 import { WorkspaceProps } from '.'
@@ -7,49 +7,76 @@ import { IconType } from '@enums'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   deleteWorkspace,
-  saveWorkspace,
-  updateNewWorkspaceName,
+  setActiveWorkspace,
+  updateWorkspace,
 } from '@store/slices'
 
 import { Icon } from '@components/atoms/icon'
-import { WorkspaceControls } from '@components/molecules/workspaceControls'
+import { Controls } from '@components/molecules/controls'
 
 import styles from './Workspace.module.scss'
 
-export const Workspace = ({ id, icon, name, isEditing }: WorkspaceProps) => {
+export const Workspace = ({
+  id,
+  icon,
+  name,
+  isActive,
+  isEditing,
+}: WorkspaceProps) => {
   const [isEditingLocal, setIsEditingLocal] = useState(false)
   const [workspaceName, setWorkspaceName] = useState(name)
 
-  const dispatch = useDispatch()
   const workspace = useSelector(
     (state: RootState) => state.board.workspaces[id]
   )
 
+  const dispatch = useDispatch()
+
   const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value
       setWorkspaceName(newValue)
       if (!isEditingLocal) {
-        dispatch(updateNewWorkspaceName(newValue))
+        dispatch(updateWorkspace({ ...workspace, name: newValue }))
       }
     },
     [dispatch, isEditingLocal]
   )
 
-  const handleEdit = useCallback(() => setIsEditingLocal(true), [])
+  const handleEdit = useCallback((event: MouseEvent) => {
+    event.stopPropagation()
+    setIsEditingLocal(true)
+  }, [])
 
   const handleRemove = useCallback(
-    () => dispatch(deleteWorkspace({ workspaceId: id })),
+    (event: MouseEvent) => {
+      event.stopPropagation()
+      dispatch(deleteWorkspace({ workspaceId: id }))
+    },
     [dispatch, id]
   )
 
-  const handleSave = useCallback(() => {
-    setIsEditingLocal(false)
-    dispatch(saveWorkspace({ ...workspace, name: workspaceName }))
-  }, [dispatch, workspace, workspaceName])
+  const handleSave = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation()
+      setIsEditingLocal(false)
+      dispatch(
+        updateWorkspace({ ...workspace, name: workspaceName, isEditing: false })
+      )
+    },
+    [dispatch, workspace, workspaceName]
+  )
+
+  const handleSetActiveWorkspace = (id: string) => {
+    dispatch(setActiveWorkspace(id))
+  }
 
   return (
-    <div className={styles.root} title={workspaceName}>
+    <div
+      onClick={() => handleSetActiveWorkspace(id)}
+      className={`${styles.root} ${isActive ? styles.rootActive : ''}`}
+      title={workspaceName}
+    >
       {icon ? (
         <Icon type={IconType.WorkspaceDefault} />
       ) : (
@@ -68,7 +95,7 @@ export const Workspace = ({ id, icon, name, isEditing }: WorkspaceProps) => {
         <span className={styles.name}>{workspaceName}</span>
       )}
       {!isEditing && (
-        <WorkspaceControls
+        <Controls
           className={styles.controls}
           isEditing={isEditingLocal}
           onEdit={handleEdit}

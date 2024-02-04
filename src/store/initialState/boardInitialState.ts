@@ -18,62 +18,71 @@ const task7Id = uuidv4()
 const workingOnTasks: Record<string, Task> = {
   [task1Id]: {
     id: task1Id,
-    content: 'Create a video for Acme',
     taskGroupId: workingOnTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Create a video for Acme',
   },
   [task2Id]: {
     id: task2Id,
-    content: 'Review Acme PDF',
     taskGroupId: workingOnTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Review Acme PDF',
   },
 }
 
 const reviewTasks: Record<string, Task> = {
   [task3Id]: {
     id: task3Id,
-    content: 'Social Media posts for Acme',
     taskGroupId: reviewTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Social Media posts for Acme',
   },
   [task4Id]: {
     id: task4Id,
-    content: 'Facebook Campaign',
     taskGroupId: reviewTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Facebook Campaign',
   },
   [task5Id]: {
     id: task5Id,
-    content: 'TikTok Profile Setup',
     taskGroupId: reviewTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'TikTok Profile Setup',
   },
   [task6Id]: {
     id: task6Id,
-    content: 'Marketing list',
     taskGroupId: reviewTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Marketing list',
   },
   [task7Id]: {
     id: task7Id,
-    content: 'Company video',
     taskGroupId: reviewTaskGroupId,
-    subtasks: {},
+    workspaceId: workspaceId,
+    isEditing: false,
+    content: 'Company video',
   },
 }
 
 const taskGroups: Record<string, TaskGroup> = {
   [workingOnTaskGroupId]: {
     id: workingOnTaskGroupId,
-    name: 'Working on',
     workspaceId: workspaceId,
+    isEditing: false,
+    name: 'Working on',
     tasks: workingOnTasks,
   },
   [reviewTaskGroupId]: {
     id: reviewTaskGroupId,
-    name: 'Review',
     workspaceId: workspaceId,
+    isEditing: false,
+    name: 'Review',
     tasks: reviewTasks,
   },
 }
@@ -82,6 +91,7 @@ const initialWorkspace: Workspace = {
   id: workspaceId,
   name: 'Acme Corp workspace',
   icon: true,
+  isEditing: false,
   taskGroups: taskGroups,
 }
 
@@ -89,7 +99,5 @@ export const boardInitialState: BoardInterface = {
   workspaces: {
     [workspaceId]: initialWorkspace,
   },
-  isAddingWorkspace: false,
-  isEditingWorkspace: false,
-  newWorkspaceDetails: null,
+  activeWorkspace: workspaceId,
 }

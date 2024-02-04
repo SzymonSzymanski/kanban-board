@@ -1,0 +1,74 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  transition: transition(background-color);
+  cursor: grab;
+  box-shadow:
+    0 0 1px 0 rgba(18, 3, 62, 0.1),
+    0 1px 1px 0 rgba(18, 3, 62, 0.1);
+  border-radius: 8px;
+  background-color: $grayscale-base-color;
+  padding: 11px 16px;
+
+  &:hover {
+    box-shadow:
+      0 0 1px 0 rgba(18, 3, 62, 0.11),
+      0 3px 5px 0 rgba(18, 3, 62, 0.1);
+    background-color: $midnight-blue-500;
+
+    .controls {
+      opacity: 1;
+    }
+  }
+
+  &Editing {
+    box-shadow:
+      0 0 1px 0 rgba(18, 3, 62, 0.11),
+      0 3px 5px 0 rgba(18, 3, 62, 0.1);
+    background-color: $midnight-blue-500;
+  }
+}
+
+.input {
+  flex: 1;
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  height: 28px;
+  overflow: hidden;
+  color: $blue-dark-typography;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+
+  &::placeholder {
+    color: rgba($blue-dark-typography, 0.5);
+  }
+}
+
+.content {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  color: $blue-dark-typography;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  font-family: Inter, sans-serif;
+}
+
+.controls {
+  opacity: 0;
+  transition: transition(opacity);
+  margin-left: auto;
+}

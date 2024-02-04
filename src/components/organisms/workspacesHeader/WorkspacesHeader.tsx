@@ -1,4 +1,4 @@
-import { WorkspacesList } from '@components/molecules/workspacesList'
+import { WorkspacesList } from '@components/organisms/workspacesList'
 import { AddWorkspaceButton } from '@components/molecules/addWorkspaceButton'
 
 import styles from './WorkspacesHeader.module.scss'

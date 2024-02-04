@@ -1,4 +1,4 @@
-import { Subtask, Task, TaskGroup, Workspace } from '../types'
+import { Task, TaskGroup, Workspace } from '../types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { boardInitialState as initialState } from '@store/initialState/boardInitialState'
@@ -10,34 +10,26 @@ export const boardSlice = createSlice({
   initialState,
   reducers: {
     // Workspace Reducers
-    createNewWorkspace: state => {
-      state.isAddingWorkspace = true
-      state.newWorkspaceDetails = {
-        id: uuidv4(),
+    setActiveWorkspace: (state, action: PayloadAction<string>) => {
+      state.activeWorkspace = action.payload
+    },
+    addWorkspace: state => {
+      const newWorkspaceId = uuidv4()
+      state.activeWorkspace = newWorkspaceId
+
+      const newWorkspace = {
+        id: newWorkspaceId,
         name: '',
         icon: false,
+        isEditing: true,
         taskGroups: {},
       }
-    },
-    updateNewWorkspaceName: (state, action: PayloadAction<string>) => {
-      if (state.newWorkspaceDetails) {
-        state.newWorkspaceDetails.name = action.payload
+
+      if (state.workspaces) {
+        state.workspaces[newWorkspaceId] = newWorkspace
       }
     },
-    saveNewWorkspace: state => {
-      if (
-        state.newWorkspaceDetails &&
-        state.newWorkspaceDetails.name.trim() !== ''
-      ) {
-        state.workspaces[state.newWorkspaceDetails.id] = {
-          ...state.newWorkspaceDetails,
-          taskGroups: {},
-        }
-        state.isAddingWorkspace = false
-        state.newWorkspaceDetails = null
-      }
-    },
-    saveWorkspace: (state, action: PayloadAction<Workspace>) => {
+    updateWorkspace: (state, action: PayloadAction<Workspace>) => {
       const workspace = action.payload
       state.workspaces[workspace.id] = workspace
     },
@@ -50,12 +42,20 @@ export const boardSlice = createSlice({
     },
 
     // Task Group Reducers
-    addTaskGroup: (state, action: PayloadAction<TaskGroup>) => {
-      const taskGroup = action.payload
+    addTaskGroup: (state, action: PayloadAction<{ workspaceId: string }>) => {
+      const { workspaceId } = action.payload
 
-      if (state.workspaces[taskGroup.workspaceId]) {
-        state.workspaces[taskGroup.workspaceId].taskGroups[taskGroup.id] =
-          taskGroup
+      const newTaskGroupId = uuidv4()
+      const newTaskGroup = {
+        id: newTaskGroupId,
+        workspaceId,
+        isEditing: true,
+        name: '',
+        tasks: {},
+      }
+
+      if (state.workspaces[workspaceId]) {
+        state.workspaces[workspaceId].taskGroups[newTaskGroupId] = newTaskGroup
       }
     },
     updateTaskGroup: (state, action: PayloadAction<TaskGroup>) => {
@@ -78,17 +78,28 @@ export const boardSlice = createSlice({
     },
 
     // Task Reducers
-    addTask: (state, action: PayloadAction<Task>) => {
-      const task = action.payload
-      const taskGroups = state.workspaces[task.taskGroupId]?.taskGroups
+    addTask: (
+      state,
+      action: PayloadAction<{ workspaceId: string; taskGroupId: string }>
+    ) => {
+      const { workspaceId, taskGroupId } = action.payload
+      const taskGroups = state.workspaces[workspaceId]?.taskGroups
+      const newTaskId = uuidv4()
+      const newTask = {
+        id: newTaskId,
+        workspaceId,
+        taskGroupId,
+        isEditing: true,
+        content: '',
+      }
 
       if (taskGroups) {
-        taskGroups[task.taskGroupId].tasks[task.id] = task
+        taskGroups[taskGroupId].tasks[newTaskId] = newTask
       }
     },
     updateTask: (state, action: PayloadAction<Task>) => {
       const task = action.payload
-      const taskGroups = state.workspaces[task.taskGroupId]?.taskGroups
+      const taskGroups = state.workspaces[task.workspaceId]?.taskGroups
 
       if (taskGroups) {
         taskGroups[task.taskGroupId].tasks[task.id] = task
@@ -96,54 +107,27 @@ export const boardSlice = createSlice({
     },
     deleteTask: (
       state,
-      action: PayloadAction<{ taskGroupId: string; taskId: string }>
+      action: PayloadAction<{
+        workspaceId: string
+        taskGroupId: string
+        taskId: string
+      }>
     ) => {
-      const { taskGroupId, taskId } = action.payload
-      const taskGroups = state.workspaces[taskGroupId]?.taskGroups
+      const { workspaceId, taskGroupId, taskId } = action.payload
+      const workspace = state.workspaces[workspaceId]
+      const taskGroup = workspace?.taskGroups[taskGroupId]
 
-      if (taskGroups) {
-        delete taskGroups[taskGroupId].tasks[taskId]
-      }
-    },
-
-    // Subtask Reducers
-    addSubtask: (state, action: PayloadAction<Subtask>) => {
-      const subtask = action.payload
-      const tasks =
-        state.workspaces[subtask.taskId]?.taskGroups[subtask.taskId]?.tasks
-
-      if (tasks) {
-        tasks[subtask.taskId].subtasks[subtask.id] = subtask
-      }
-    },
-    updateSubtask: (state, action: PayloadAction<Subtask>) => {
-      const subtask = action.payload
-      const tasks =
-        state.workspaces[subtask.taskId]?.taskGroups[subtask.taskId]?.tasks
-
-      if (tasks) {
-        tasks[subtask.taskId].subtasks[subtask.id] = subtask
-      }
-    },
-    deleteSubtask: (
-      state,
-      action: PayloadAction<{ taskId: string; subtaskId: string }>
-    ) => {
-      const { taskId, subtaskId } = action.payload
-      const tasks = state.workspaces[taskId]?.taskGroups[taskId]?.tasks
-
-      if (tasks) {
-        delete tasks[taskId].subtasks[subtaskId]
+      if (taskGroup) {
+        delete taskGroup.tasks[taskId]
       }
     },
   },
 })
 
 export const {
-  createNewWorkspace,
-  updateNewWorkspaceName,
-  saveNewWorkspace,
-  saveWorkspace,
+  setActiveWorkspace,
+  addWorkspace,
+  updateWorkspace,
   deleteWorkspace,
   addTaskGroup,
   updateTaskGroup,
@@ -151,7 +135,4 @@ export const {
   addTask,
   updateTask,
   deleteTask,
-  addSubtask,
-  updateSubtask,
-  deleteSubtask,
 } = boardSlice.actions
