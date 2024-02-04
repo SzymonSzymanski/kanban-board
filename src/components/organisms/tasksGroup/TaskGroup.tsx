@@ -52,18 +52,23 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
     (event: MouseEvent) => {
       event.stopPropagation()
       setIsEditingLocal(false)
-      dispatch(updateTaskGroup({ ...taskGroup, name: taskGroupName }))
+      dispatch(
+        updateTaskGroup({ ...taskGroup, name: taskGroupName, isEditing: false })
+      )
     },
     [dispatch, taskGroup, taskGroupName]
   )
 
   return (
-    <div className={styles.root}>
+    <div className={`${styles.root} ${isEditing ? styles.rootEditing : ''}`}>
       <div className={styles.header}>
         {isEditing || isEditingLocal ? (
           <input
             className={styles.input}
             value={taskGroupName}
+            placeholder={
+              isEditing ? 'Title of the new list...' : 'Title of the list'
+            }
             onChange={handleInputChange}
             autoFocus
           />
@@ -75,11 +80,11 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
           onEdit={handleEdit}
           onSave={handleSave}
           onRemove={handleRemove}
-          canSave={taskGroupName.trim() !== '' && !isEditing}
+          canSave={taskGroupName.trim() !== ''}
           className={styles.controls}
         />
       </div>
-      {taskGroup.tasks && (
+      {Object.keys(taskGroup.tasks).length > 0 && (
         <div className={styles.tasks}>
           {Object.values(taskGroup.tasks).map(task => (
             <Task
@@ -94,7 +99,9 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
         </div>
       )}
       {!isEditing && (
-        <AddTaskButton workspaceId={workspaceId} taskGroupId={id} />
+        <div className={styles.addButton}>
+          <AddTaskButton workspaceId={workspaceId} taskGroupId={id} />
+        </div>
       )}
     </div>
   )

@@ -7,11 +7,11 @@ import styles from './Board.module.scss'
 import { AddTaskGroupButton } from '@components/molecules/addTaskGroupButton'
 
 export const Board = () => {
-  const { workspaces, activeWorkspace: workspaceId } = useSelector(
+  const { workspaces, activeWorkspace: activeWorkspaceId } = useSelector(
     (state: RootState) => state.board
   )
 
-  const activeWorkspace = workspaces[workspaceId]
+  const activeWorkspace = workspaces[activeWorkspaceId]
 
   return (
     <div className={styles.root}>
@@ -25,7 +25,11 @@ export const Board = () => {
               isEditing={taskGroup.isEditing}
             />
           ))}
-          <AddTaskGroupButton workspaceId={workspaceId} />
+          {!activeWorkspace.isEditing && (
+            <div className={styles.addButton}>
+              <AddTaskGroupButton workspaceId={activeWorkspaceId} />
+            </div>
+          )}
         </>
       )}
     </div>

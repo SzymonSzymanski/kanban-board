@@ -13,12 +13,6 @@
   border-radius: 4px;
   background-color: $grayscale-base-color;
   padding: 5px 12px;
-  color: $blue-dark-typography;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 20px;
-  font-family: Inter, sans-serif;
 
   &:hover:not(&Save, &[disabled]) {
     background-color: $grayscale-color-100;

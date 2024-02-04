@@ -1,15 +1,15 @@
 @use '@styles/mixins' as *;
-@use '@styles/functions' as *;
+@use '@styles/variables' as *;
 
 .root {
   @include icon-hover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transition(opacity);
   cursor: pointer;
   outline: none;
   border: none;
   background-color: transparent;
   padding: 0;
+}
+
+.icon {
+  color: $grayscale-color-300;
 }

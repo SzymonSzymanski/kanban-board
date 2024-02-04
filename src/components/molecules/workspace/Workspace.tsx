@@ -43,8 +43,7 @@ export const Workspace = ({
     [dispatch, isEditingLocal]
   )
 
-  const handleEdit = useCallback((event: MouseEvent) => {
-    event.stopPropagation()
+  const handleEdit = useCallback(() => {
     setIsEditingLocal(true)
   }, [])
 
@@ -56,16 +55,12 @@ export const Workspace = ({
     [dispatch, id]
   )
 
-  const handleSave = useCallback(
-    (event: MouseEvent) => {
-      event.stopPropagation()
-      setIsEditingLocal(false)
-      dispatch(
-        updateWorkspace({ ...workspace, name: workspaceName, isEditing: false })
-      )
-    },
-    [dispatch, workspace, workspaceName]
-  )
+  const handleSave = useCallback(() => {
+    setIsEditingLocal(false)
+    dispatch(
+      updateWorkspace({ ...workspace, name: workspaceName, isEditing: false })
+    )
+  }, [dispatch, workspace, workspaceName])
 
   const handleSetActiveWorkspace = (id: string) => {
     dispatch(setActiveWorkspace(id))

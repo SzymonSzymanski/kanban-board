@@ -1,0 +1,14 @@
+@use '@styles/variables' as *;
+@use '@styles/mixins' as *;
+
+.text_18_400 {
+  @include text($text-18-400);
+}
+
+.text_18_600 {
+  @include text($text-18-600);
+}
+
+.text_20_600 {
+  @include text($text-20-600);
+}

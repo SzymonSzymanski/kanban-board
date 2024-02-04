@@ -9,6 +9,7 @@ import { deleteTask, updateTask } from '@store/slices'
 import { Controls } from '@components/molecules/controls'
 
 import styles from './Task.module.scss'
+import { Text, TextType } from '@components/atoms/text'
 
 export const Task = ({
   id,
@@ -19,6 +20,7 @@ export const Task = ({
   const [isEditingLocal, setIsEditingLocal] = useState(false)
 
   const dispatch = useDispatch()
+
   const workspace = useSelector(
     (state: RootState) => state.board.workspaces[workspaceId]
   )
@@ -66,22 +68,24 @@ export const Task = ({
           className={styles.input}
           value={task.content}
           onChange={handleInputChange}
-          placeholder={isEditing ? 'Title of the new card...' : ''}
+          placeholder={
+            isEditing ? 'Title of the new card...' : 'Title of the card...'
+          }
           autoFocus
         />
       ) : (
-        <span className={styles.content}>{task.content}</span>
+        <Text className={styles.content} type={TextType.text_18_400}>
+          {task.content}
+        </Text>
       )}
-      {!isEditing && (
-        <Controls
-          className={styles.controls}
-          isEditing={isEditingLocal}
-          onEdit={handleEdit}
-          onSave={handleSave}
-          onRemove={handleRemove}
-          canSave={task.content.trim() !== ''}
-        />
-      )}
+      <Controls
+        className={styles.controls}
+        isEditing={isEditingLocal || isEditing}
+        onEdit={handleEdit}
+        onSave={handleSave}
+        onRemove={handleRemove}
+        canSave={task.content.trim() !== ''}
+      />
     </div>
   )
 }

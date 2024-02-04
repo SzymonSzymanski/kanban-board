@@ -7,7 +7,7 @@ import styles from './Settings.module.scss'
 export const Settings = () => {
   return (
     <button className={styles.root}>
-      <Icon type={IconType.Settings} />
+      <Icon type={IconType.Settings} className={styles.icon} />
     </button>
   )
 }

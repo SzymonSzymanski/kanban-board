@@ -1,9 +1,6 @@
-import { IconProps } from '@types'
-
-export const WorkspaceDefault = ({ className }: IconProps) => {
+export const WorkspaceDefault = () => {
   return (
     <svg
-      className={className}
       width="32"
       height="32"
       viewBox="0 0 32 32"

@@ -5,6 +5,7 @@ import { IconType } from '@enums'
 import { useDispatch, useSelector } from 'react-redux'
 import { addWorkspace, updateWorkspace } from '@store/slices'
 
+import { Text, TextType } from '@components/atoms/text'
 import { Icon } from '@components/atoms/icon'
 
 import styles from './AddWorkspaceButton.module.scss'
@@ -17,7 +18,7 @@ export const AddWorkspaceButton = () => {
     workspace => workspace.isEditing
   )
 
-  const canSave = editingWorkspace?.name.trim() !== ''
+  const canSave = editingWorkspace?.name.trim()
 
   const handleClick = () => {
     if (canSave && editingWorkspace) {
@@ -31,14 +32,16 @@ export const AddWorkspaceButton = () => {
     <button
       className={`${styles.root} ${canSave ? styles.rootSave : ''}`}
       onClick={handleClick}
-      disabled={!canSave}
+      disabled={editingWorkspace && !canSave}
     >
-      {editingWorkspace ? (
-        <Icon type={IconType.Save} />
-      ) : (
+      {!editingWorkspace ? (
         <Icon type={IconType.Create} />
+      ) : (
+        <Icon type={IconType.Save} />
       )}
-      {editingWorkspace ? ButtonType.Save : ButtonType.Create}
+      <Text type={TextType.text_20_600}>
+        {!editingWorkspace ? ButtonType.Create : ButtonType.Save}
+      </Text>
     </button>
   )
 }

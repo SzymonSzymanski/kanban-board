@@ -1,4 +1,4 @@
-export interface ButtonTypes {
+export interface ButtonProps {
   workspaceId: string
   taskGroupId: string
 }
