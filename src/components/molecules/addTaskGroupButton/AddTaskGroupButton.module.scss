@@ -1,0 +1,39 @@
+@use '@styles/variables' as *;
+@use '@styles/functions' as *;
+
+.root {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  transition: transition(color);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 11px 8px 8px;
+  width: 294px;
+  color: $midnight-blue-800;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  font-family: Inter, sans-serif;
+
+  &:hover:not(&Save, &[disabled]) {
+    color: $midnight-blue-300;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &Save {
+    color: $midnight-blue-800;
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    color: $midnight-blue-300;
+  }
+}

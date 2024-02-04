@@ -3,4 +3,5 @@ export interface WorkspaceProps {
   icon: boolean
   name: string
   isEditing: boolean
+  isActive: boolean
 }

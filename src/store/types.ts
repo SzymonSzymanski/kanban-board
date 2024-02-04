@@ -1,26 +1,22 @@
-export interface Subtask {
-  id: string
-  content: string
-  completed: boolean
-  taskId: string
-}
-
 export interface Task {
   id: string
-  content: string
   taskGroupId: string
-  subtasks: Record<string, Subtask>
+  workspaceId: string
+  isEditing: boolean
+  content: string
 }
 
 export interface TaskGroup {
   id: string
-  name: string
   workspaceId: string
+  isEditing: boolean
+  name: string
   tasks: Record<string, Task>
 }
 
 export interface Workspace {
   id: string
+  isEditing: boolean
   name: string
   icon: boolean
   taskGroups: Record<string, TaskGroup>
@@ -28,7 +24,5 @@ export interface Workspace {
 
 export interface BoardInterface {
   workspaces: Record<string, Workspace>
-  isAddingWorkspace: boolean
-  isEditingWorkspace: boolean
-  newWorkspaceDetails: Workspace | null
+  activeWorkspace: string
 }

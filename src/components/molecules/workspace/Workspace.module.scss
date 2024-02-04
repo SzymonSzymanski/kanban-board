@@ -7,9 +7,8 @@
   gap: 12px;
   cursor: grab;
   border-radius: 8px;
-  background: #f4f7fe;
   padding: 16px;
-  color: #001c39;
+  color: $blue-dark-typography;
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
@@ -20,6 +19,10 @@
     .controls {
       opacity: 1;
     }
+  }
+
+  &Active {
+    background: $midnight-blue-100;
   }
 }
 
@@ -32,7 +35,7 @@
   background-color: #b3c4d6;
   width: 32px;
   height: 32px;
-  color: #001c39;
+  color: $blue-dark-typography;
 }
 
 .input {
@@ -41,7 +44,7 @@
   background-color: transparent;
   padding: 0;
   overflow: hidden;
-  color: #001c39;
+  color: $blue-dark-typography;
   font-style: normal;
   font-weight: 600;
   font-size: 13px;

@@ -6,7 +6,7 @@ import { Workspace } from '@components/molecules/workspace'
 import styles from './WorkspacesList.module.scss'
 
 export const WorkspacesList = () => {
-  const { workspaces, isAddingWorkspace, newWorkspaceDetails } = useSelector(
+  const { workspaces, activeWorkspace } = useSelector(
     (state: RootState) => state.board
   )
 
@@ -18,17 +18,10 @@ export const WorkspacesList = () => {
           id={workspace.id}
           name={workspace.name}
           icon={workspace.icon}
-          isEditing={false}
+          isActive={activeWorkspace === workspace.id}
+          isEditing={workspace.isEditing}
         />
       ))}
-      {isAddingWorkspace && newWorkspaceDetails && (
-        <Workspace
-          id={newWorkspaceDetails.id}
-          name={newWorkspaceDetails.name}
-          icon={newWorkspaceDetails.icon}
-          isEditing={true}
-        />
-      )}
     </div>
   )
 }
