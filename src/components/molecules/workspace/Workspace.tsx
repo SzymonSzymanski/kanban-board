@@ -1,4 +1,12 @@
-import { ChangeEvent, MouseEvent, useCallback, useState } from 'react'
+import {
+  ChangeEvent,
+  CSSProperties,
+  MouseEvent,
+  useCallback,
+  useState,
+} from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 import { RootState } from '@store/store'
 import { WorkspaceProps } from '.'
@@ -66,11 +74,23 @@ export const Workspace = ({
     dispatch(setActiveWorkspace(id))
   }
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id })
+
+  const style: CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
+
   return (
     <div
       onClick={() => handleSetActiveWorkspace(id)}
       className={`${styles.root} ${isActive ? styles.rootActive : ''}`}
       title={workspaceName}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
     >
       {icon ? (
         <Icon type={IconType.WorkspaceDefault} />

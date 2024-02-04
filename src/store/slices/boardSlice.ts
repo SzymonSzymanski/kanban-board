@@ -121,6 +121,37 @@ export const boardSlice = createSlice({
         delete taskGroup.tasks[taskId]
       }
     },
+
+    // Reorder reducers
+    reorderWorkspaces: (state, action: PayloadAction<string[]>) => {
+      const newOrder = action.payload
+      const reorderedWorkspaces: Record<string, Workspace> = {}
+      newOrder.forEach(workspaceId => {
+        const workspace = state.workspaces[workspaceId]
+        if (workspace) {
+          reorderedWorkspaces[workspaceId] = workspace
+        }
+      })
+      state.workspaces = reorderedWorkspaces
+    },
+    reorderTaskGroup: (
+      state,
+      action: PayloadAction<{ workspaceId: string; taskGroupIds: string[] }>
+    ) => {
+      const { workspaceId, taskGroupIds } = action.payload
+      const workspace = state.workspaces[workspaceId]
+      if (!workspace) return
+
+      const newOrderOfTaskGroups: Record<string, TaskGroup> = {}
+      taskGroupIds.forEach(taskId => {
+        const taskGroup = workspace.taskGroups[taskId]
+        if (taskGroup) {
+          newOrderOfTaskGroups[taskId] = { ...taskGroup }
+        }
+      })
+
+      state.workspaces[workspaceId].taskGroups = newOrderOfTaskGroups
+    },
   },
 })
 
@@ -135,4 +166,6 @@ export const {
   addTask,
   updateTask,
   deleteTask,
+  reorderWorkspaces,
+  reorderTaskGroup,
 } = boardSlice.actions
