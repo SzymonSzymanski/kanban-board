@@ -6,7 +6,8 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  cursor: pointer;
+  will-change: transform;
+  cursor: grab;
   border-radius: 16px;
   background-color: $midnight-blue-400;
   padding: 11px 8px 8px;

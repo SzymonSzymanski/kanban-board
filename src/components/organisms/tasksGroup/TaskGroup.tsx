@@ -1,4 +1,13 @@
-import { ChangeEvent, MouseEvent, useCallback, useState } from 'react'
+import {
+  ChangeEvent,
+  CSSProperties,
+  MouseEvent,
+  useCallback,
+  useState,
+} from 'react'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
 import { TaskGroupProps } from '@components/organisms/tasksGroup/types'
 
 import { RootState } from '@store/store'
@@ -16,6 +25,9 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
   const { workspaces } = useSelector((state: RootState) => state.board)
 
   const dispatch = useDispatch()
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id })
 
   const workspace = workspaces[workspaceId]
 
@@ -59,8 +71,19 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
     [dispatch, taskGroup, taskGroupName]
   )
 
+  const style: CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
+
   return (
-    <div className={`${styles.root} ${isEditing ? styles.rootEditing : ''}`}>
+    <div
+      className={`${styles.root} ${isEditing ? styles.rootEditing : ''}`}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <div className={styles.header}>
         {isEditing || isEditingLocal ? (
           <input
