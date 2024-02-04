@@ -8,6 +8,7 @@ export const tabsMock: Tab[] = [
     id: uuidv4(),
     icon: IconType.Dashboard,
     name: 'Dashboard',
+    isActive: false,
   },
   {
     id: uuidv4(),
@@ -19,10 +20,12 @@ export const tabsMock: Tab[] = [
     id: uuidv4(),
     icon: IconType.Profile,
     name: 'Profile',
+    isActive: false,
   },
   {
     id: uuidv4(),
     icon: IconType.Search,
     name: 'Search',
+    isActive: false,
   },
 ]
