@@ -33,6 +33,9 @@
       "@enums": [
         "./src/enums"
       ],
+      "@hooks": [
+        "./src/hooks"
+      ],
       "@styles/*": [
         "./src/styles/*"
       ],
