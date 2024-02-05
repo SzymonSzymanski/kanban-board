@@ -71,8 +71,15 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
     [dispatch, taskGroup, taskGroupName]
   )
 
+  const transformWithoutScale = {
+    x: transform?.x ?? 0,
+    y: transform?.y ?? 0,
+    scaleX: 1,
+    scaleY: 1,
+  }
+
   const style: CSSProperties = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Transform.toString(transformWithoutScale),
     transition,
   }
 
