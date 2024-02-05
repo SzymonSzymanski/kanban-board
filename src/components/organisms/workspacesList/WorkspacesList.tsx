@@ -1,21 +1,12 @@
-import {
-  closestCenter,
-  DndContext,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { closestCenter, DndContext } from '@dnd-kit/core'
+import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
 import { RootState } from '@store/store'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { reorderWorkspaces } from '@store/slices'
+
+import { useDnDSetup } from '@hooks'
 
 import { Workspace } from '@components/molecules/workspace'
 
@@ -28,26 +19,15 @@ export const WorkspacesList = () => {
     (state: RootState) => state.board
   )
 
-  const sensors = useSensors(
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        delay: 200,
-        tolerance: 5,
-      },
-    }),
-    useSensor(TouchSensor)
-  )
+  const onDragEnd = (activeId: string, overId: string) => {
+    const oldIndex = Object.keys(workspaces).indexOf(activeId)
+    const newIndex = Object.keys(workspaces).indexOf(overId)
+    const newOrder = arrayMove(Object.keys(workspaces), oldIndex, newIndex)
 
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event
-
-    if (over && active.id !== over.id) {
-      const oldIndex = Object.keys(workspaces).indexOf(active.id)
-      const newIndex = Object.keys(workspaces).indexOf(over.id)
-      const newOrder = arrayMove(Object.keys(workspaces), oldIndex, newIndex)
-      dispatch(reorderWorkspaces(newOrder))
-    }
+    dispatch(reorderWorkspaces(newOrder))
   }
+
+  const { sensors, handleDragEnd } = useDnDSetup({ onDragEnd })
 
   return (
     <DndContext
@@ -55,10 +35,7 @@ export const WorkspacesList = () => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext
-        items={Object.keys(workspaces)}
-        strategy={verticalListSortingStrategy}
-      >
+      <SortableContext items={Object.keys(workspaces)}>
         <div className={styles.root}>
           {Object.values(workspaces).map(workspace => (
             <Workspace

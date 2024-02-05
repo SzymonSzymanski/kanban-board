@@ -11,6 +11,7 @@ export default defineConfig({
       { find: '@store', replacement: resolve(__dirname, 'src/store') },
       { find: '@types', replacement: resolve(__dirname, 'src/types') },
       { find: '@enums', replacement: resolve(__dirname, 'src/enums') },
+      { find: '@hooks', replacement: resolve(__dirname, 'src/hooks') },
       { find: '@styles', replacement: resolve(__dirname, 'src/styles') },
       { find: '@assets', replacement: resolve(__dirname, 'src/assets') },
       {

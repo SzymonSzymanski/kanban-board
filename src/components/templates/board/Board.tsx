@@ -1,17 +1,12 @@
-import {
-  closestCenter,
-  DndContext,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
+import { closestCenter, DndContext } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
 import { RootState } from '@store/store'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { reorderTaskGroup } from '@store/slices'
+
+import { useDnDSetup } from '@hooks'
 
 import { TaskGroup } from '@components/organisms/tasksGroup'
 import { AddTaskGroupButton } from '@components/molecules/addTaskGroupButton'
@@ -27,37 +22,24 @@ export const Board = () => {
 
   const activeWorkspace = workspaces[activeWorkspaceId]
 
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      delay: 200,
-      tolerance: 5,
-    },
-  })
+  const onDragEnd = (activeId: string, overId: string) => {
+    const oldIndex = Object.keys(activeWorkspace.taskGroups).indexOf(activeId)
+    const newIndex = Object.keys(activeWorkspace.taskGroups).indexOf(overId)
+    const newTaskGroupIds = arrayMove(
+      Object.keys(activeWorkspace.taskGroups),
+      oldIndex,
+      newIndex
+    )
 
-  const sensors = useSensors(mouseSensor, useSensor(TouchSensor))
-
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event
-
-    if (over && active.id !== over.id) {
-      const oldIndex = Object.keys(activeWorkspace.taskGroups).indexOf(
-        active.id
-      )
-      const newIndex = Object.keys(activeWorkspace.taskGroups).indexOf(over.id)
-      const newTaskGroupIds = arrayMove(
-        Object.keys(activeWorkspace.taskGroups),
-        oldIndex,
-        newIndex
-      )
-
-      dispatch(
-        reorderTaskGroup({
-          workspaceId: activeWorkspaceId,
-          taskGroupIds: newTaskGroupIds,
-        })
-      )
-    }
+    dispatch(
+      reorderTaskGroup({
+        workspaceId: activeWorkspaceId,
+        taskGroupIds: newTaskGroupIds,
+      })
+    )
   }
+
+  const { sensors, handleDragEnd } = useDnDSetup({ onDragEnd })
 
   if (!activeWorkspace) {
     return null
@@ -71,23 +53,21 @@ export const Board = () => {
     >
       <SortableContext items={Object.keys(activeWorkspace.taskGroups)}>
         <div className={styles.root}>
-          {activeWorkspace && (
-            <>
-              {Object.values(activeWorkspace.taskGroups).map(taskGroup => (
-                <TaskGroup
-                  key={taskGroup.id}
-                  id={taskGroup.id}
-                  workspaceId={taskGroup.workspaceId}
-                  isEditing={taskGroup.isEditing}
-                />
-              ))}
-              {!activeWorkspace.isEditing && (
-                <div className={styles.addButton}>
-                  <AddTaskGroupButton workspaceId={activeWorkspaceId} />
-                </div>
-              )}
-            </>
-          )}
+          <>
+            {Object.values(activeWorkspace.taskGroups).map(taskGroup => (
+              <TaskGroup
+                key={taskGroup.id}
+                id={taskGroup.id}
+                workspaceId={taskGroup.workspaceId}
+                isEditing={taskGroup.isEditing}
+              />
+            ))}
+            {!activeWorkspace.isEditing && (
+              <div className={styles.addButton}>
+                <AddTaskGroupButton workspaceId={activeWorkspaceId} />
+              </div>
+            )}
+          </>
         </div>
       </SortableContext>
     </DndContext>
