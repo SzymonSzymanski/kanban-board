@@ -24,5 +24,5 @@ export interface Workspace {
 
 export interface BoardInterface {
   workspaces: Record<string, Workspace>
-  activeWorkspace: string
+  activeWorkspace: string | null
 }
