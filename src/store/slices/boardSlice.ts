@@ -51,7 +51,7 @@ export const boardSlice = createSlice({
             state.activeWorkspace = workspaceIds[deleteIndex + 1]
           }
         } else {
-          state.activeWorkspace = null
+          state.activeWorkspace = ''
         }
       }
 
