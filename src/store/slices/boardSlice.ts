@@ -38,6 +38,23 @@ export const boardSlice = createSlice({
       action: PayloadAction<{ workspaceId: string }>
     ) => {
       const { workspaceId } = action.payload
+
+      // Check if the workspace to delete is currently active
+      if (workspaceId === state.activeWorkspace) {
+        const workspaceIds = Object.keys(state.workspaces)
+        const deleteIndex = workspaceIds.indexOf(workspaceId)
+
+        if (workspaceIds.length > 1) {
+          if (deleteIndex > 0) {
+            state.activeWorkspace = workspaceIds[deleteIndex - 1]
+          } else {
+            state.activeWorkspace = workspaceIds[deleteIndex + 1]
+          }
+        } else {
+          state.activeWorkspace = null
+        }
+      }
+
       delete state.workspaces[workspaceId]
     },
 

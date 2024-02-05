@@ -59,6 +59,10 @@ export const Board = () => {
     }
   }
 
+  if (!activeWorkspace) {
+    return null
+  }
+
   return (
     <DndContext
       sensors={sensors}

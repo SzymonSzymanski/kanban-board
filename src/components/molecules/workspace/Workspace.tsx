@@ -58,6 +58,7 @@ export const Workspace = ({
   const handleRemove = useCallback(
     (event: MouseEvent) => {
       event.stopPropagation()
+      console.log('handleRemove')
       dispatch(deleteWorkspace({ workspaceId: id }))
     },
     [dispatch, id]
