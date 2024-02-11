@@ -1,28 +1,26 @@
-export interface Task {
+export interface TaskInterface {
   id: string
   taskGroupId: string
-  workspaceId: string
   isEditing: boolean
   content: string
 }
 
-export interface TaskGroup {
+export interface TaskGroupInterface {
   id: string
   workspaceId: string
   isEditing: boolean
   name: string
-  tasks: Record<string, Task>
 }
 
-export interface Workspace {
+export interface WorkspaceInterface {
   id: string
   isEditing: boolean
   name: string
   icon: boolean
-  taskGroups: Record<string, TaskGroup>
+  taskGroupOrderIds: string[]
 }
 
 export interface BoardInterface {
-  workspaces: Record<string, Workspace>
-  activeWorkspace: string
+  activeWorkspaceId: string | null
+  workspaceOrder: string[]
 }

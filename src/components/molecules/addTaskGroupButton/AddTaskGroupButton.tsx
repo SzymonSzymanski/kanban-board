@@ -1,9 +1,16 @@
-import { RootState } from '@store/store'
+import { RootState } from '@store/store.ts'
 import { ButtonProps, ButtonType } from '.'
 import { IconType } from '@enums'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { addTaskGroup } from '@store/slices'
+import {
+  addTaskGroup,
+  selectAllTaskGroups,
+  selectWorkspaceById,
+  updateWorkspace,
+} from '@store/slices'
 
 import { Text, TextType } from '@components/atoms/text'
 import { Icon } from '@components/atoms/icon'
@@ -13,17 +20,39 @@ import styles from './AddTaskGroupButton.module.scss'
 export const AddTaskGroupButton = ({ workspaceId }: ButtonProps) => {
   const dispatch = useDispatch()
 
-  const workspace = useSelector(
-    (state: RootState) => state.board.workspaces[workspaceId]
+  const activeWorkspace = useSelector((state: RootState) =>
+    selectWorkspaceById(state, workspaceId)
   )
 
-  const editingTaskGroup = Object.values(workspace.taskGroups).find(
-    taskGroup => taskGroup.isEditing
+  const taskGroups = useSelector(selectAllTaskGroups)
+
+  const editingTaskGroup = taskGroups.find(
+    taskGroup => taskGroup.workspaceId === workspaceId && taskGroup.isEditing
   )
 
   const handleClick = () => {
-    if (!editingTaskGroup) {
-      dispatch(addTaskGroup({ workspaceId }))
+    if (!editingTaskGroup && activeWorkspace) {
+      const newTaskGroupId = uuidv4()
+      dispatch(
+        addTaskGroup({
+          id: newTaskGroupId,
+          workspaceId,
+          name: '',
+          isEditing: true,
+        })
+      )
+
+      const updatedTaskGroupIds = [
+        ...(activeWorkspace.taskGroupOrderIds || []),
+        newTaskGroupId,
+      ]
+
+      dispatch(
+        updateWorkspace({
+          id: workspaceId,
+          changes: { taskGroupOrderIds: updatedTaskGroupIds },
+        })
+      )
     }
   }
 

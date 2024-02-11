@@ -1,90 +1,72 @@
-import { ChangeEvent, MouseEvent, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
-import { RootState } from '@store/store'
-import { TaskProps } from '.'
+import { TaskProps } from '@components/molecules/task/types.ts'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteTask, updateTask } from '@store/slices'
+import { useDispatch } from 'react-redux'
+import { removeTask, updateTask } from '@store/slices'
 
 import { Controls } from '@components/molecules/controls'
-
-import styles from './Task.module.scss'
 import { Text, TextType } from '@components/atoms/text'
 
-export const Task = ({
-  id,
-  taskGroupId,
-  workspaceId,
-  isEditing,
-}: TaskProps) => {
-  const [isEditingLocal, setIsEditingLocal] = useState(false)
+import styles from './Task.module.scss'
+
+export const Task = ({ id, content, isEditing, taskGroupId }: TaskProps) => {
+  const [editMode, setEditMode] = useState(isEditing)
+  const [taskContent, setTaskContent] = useState(content)
 
   const dispatch = useDispatch()
 
-  const workspace = useSelector(
-    (state: RootState) => state.board.workspaces[workspaceId]
-  )
-
-  const taskGroup = workspace.taskGroups[taskGroupId]
-  const task = taskGroup.tasks[id]
-
   const handleInputChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value
-      dispatch(updateTask({ ...task, content: newValue }))
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setTaskContent(event.target.value)
     },
-    [isEditingLocal]
+    []
   )
 
-  const handleEdit = useCallback((event: MouseEvent) => {
-    event.stopPropagation()
-    setIsEditingLocal(true)
+  const handleEdit = useCallback(() => {
+    setEditMode(true)
   }, [])
 
-  const handleRemove = useCallback(
-    (event: MouseEvent) => {
-      event.stopPropagation()
-      dispatch(deleteTask({ workspaceId, taskGroupId, taskId: id }))
-    },
-    [dispatch, workspaceId, taskGroupId, id]
-  )
+  const handleRemove = useCallback(() => {
+    dispatch(removeTask(id))
+  }, [dispatch, id])
 
-  const handleSave = useCallback(
-    (event: MouseEvent) => {
-      event.stopPropagation()
-      setIsEditingLocal(false)
-      dispatch(updateTask({ ...task, isEditing: false }))
-    },
-    [dispatch, workspace]
-  )
+  const handleSave = useCallback(() => {
+    setEditMode(false)
+
+    if (taskContent !== content) {
+      console.log('new content')
+      dispatch(
+        updateTask({
+          id,
+          changes: { content: taskContent, isEditing: false },
+        })
+      )
+    }
+  }, [dispatch, id, taskGroupId, taskContent, content])
 
   return (
-    <div
-      className={`${styles.root} ${isEditingLocal || isEditing ? styles.rootEditing : ''}`}
-      title={task.content}
-    >
-      {isEditing || isEditingLocal ? (
+    <div className={`${styles.root} ${editMode ? styles.rootEditing : ''}`}>
+      {editMode ? (
         <input
           className={styles.input}
-          value={task.content}
+          value={taskContent}
           onChange={handleInputChange}
-          placeholder={
-            isEditing ? 'Title of the new card...' : 'Title of the card...'
-          }
+          placeholder="Title of the card..."
           autoFocus
         />
       ) : (
         <Text className={styles.content} type={TextType.text_18_400}>
-          {task.content}
+          {taskContent}
         </Text>
       )}
       <Controls
         className={styles.controls}
-        isEditing={isEditingLocal || isEditing}
+        isEditing={editMode}
         onEdit={handleEdit}
         onSave={handleSave}
         onRemove={handleRemove}
-        canSave={task.content.trim() !== ''}
+        canSave={taskContent.trim() !== ''}
       />
     </div>
   )
