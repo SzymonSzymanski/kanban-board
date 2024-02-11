@@ -1,12 +1,12 @@
+import { useCallback } from 'react'
+
 import { closestCenter, DndContext } from '@dnd-kit/core'
 import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 
-import { RootState } from '@store/store'
-
 import { useDispatch, useSelector } from 'react-redux'
-import { reorderWorkspaces } from '@store/slices'
+import { selectActiveWorkspaceId, updateWorkspaceOrder } from '@store/slices'
 
-import { useDnDSetup } from '@hooks'
+import { useDnDSetup, useOrderedWorkspaces } from '@hooks'
 
 import { Workspace } from '@components/molecules/workspace'
 
@@ -15,17 +15,27 @@ import styles from './WorkspacesList.module.scss'
 export const WorkspacesList = () => {
   const dispatch = useDispatch()
 
-  const { workspaces, activeWorkspace } = useSelector(
-    (state: RootState) => state.board
+  const activeWorkspaceId = useSelector(selectActiveWorkspaceId)
+
+  const displayedWorkspaces = useOrderedWorkspaces()
+
+  const onDragEnd = useCallback(
+    (activeId: string, overId: string) => {
+      const oldIndex = displayedWorkspaces.findIndex(
+        workspace => workspace.id === activeId
+      )
+      const newIndex = displayedWorkspaces.findIndex(
+        workspace => workspace.id === overId
+      )
+
+      if (oldIndex !== -1 && newIndex !== -1) {
+        let newOrder = displayedWorkspaces.map(workspace => workspace.id)
+        newOrder = arrayMove(newOrder, oldIndex, newIndex)
+        dispatch(updateWorkspaceOrder(newOrder))
+      }
+    },
+    [dispatch, displayedWorkspaces]
   )
-
-  const onDragEnd = (activeId: string, overId: string) => {
-    const oldIndex = Object.keys(workspaces).indexOf(activeId)
-    const newIndex = Object.keys(workspaces).indexOf(overId)
-    const newOrder = arrayMove(Object.keys(workspaces), oldIndex, newIndex)
-
-    dispatch(reorderWorkspaces(newOrder))
-  }
 
   const { sensors, handleDragEnd } = useDnDSetup({ onDragEnd })
 
@@ -35,15 +45,15 @@ export const WorkspacesList = () => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={Object.keys(workspaces)}>
+      <SortableContext items={displayedWorkspaces.map(w => w.id)}>
         <div className={styles.root}>
-          {Object.values(workspaces).map(workspace => (
+          {displayedWorkspaces.map(workspace => (
             <Workspace
               key={workspace.id}
               id={workspace.id}
               name={workspace.name}
               icon={workspace.icon}
-              isActive={activeWorkspace === workspace.id}
+              isActive={activeWorkspaceId === workspace.id}
               isEditing={workspace.isEditing}
             />
           ))}

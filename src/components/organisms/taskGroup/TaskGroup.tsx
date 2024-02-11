@@ -1,50 +1,57 @@
 import {
   ChangeEvent,
   CSSProperties,
+  memo,
   MouseEvent,
   useCallback,
+  useMemo,
   useState,
 } from 'react'
+
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { TaskGroupProps } from '@components/organisms/tasksGroup/types'
+import { RootState } from '@store/store.ts'
+import { TaskGroupProps } from '.'
 
-import { RootState } from '@store/store'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  removeTaskGroup,
+  selectAllTasks,
+  selectTaskGroupById,
+  updateTaskGroup,
+} from '@store/slices'
 
-import { Task } from '@components/molecules/task'
 import { Controls } from '@components/molecules/controls'
+import { Task } from '@components/molecules/task'
 import { AddTaskButton } from '@components/molecules/addTaskButton'
-
-import { deleteTaskGroup, updateTaskGroup } from '@store/slices'
 
 import styles from './TaskGroup.module.scss'
 
-export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
-  const { workspaces } = useSelector((state: RootState) => state.board)
-
+export const TaskGroup = memo(({ id, isEditing }: TaskGroupProps) => {
   const dispatch = useDispatch()
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id })
+  const taskGroup = useSelector((state: RootState) =>
+    selectTaskGroupById(state, id)
+  )
 
-  const workspace = workspaces[workspaceId]
+  if (!taskGroup) return null
 
-  const taskGroup = workspace.taskGroups[id]
+  const allTasks = useSelector(selectAllTasks)
+
+  const tasks = useMemo(
+    () => allTasks.filter(task => task.taskGroupId === id),
+    [allTasks, id]
+  )
 
   const [isEditingLocal, setIsEditingLocal] = useState(false)
   const [taskGroupName, setTaskGroupName] = useState(taskGroup.name)
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value
-      setTaskGroupName(newValue)
-      if (!isEditingLocal) {
-        dispatch(updateTaskGroup({ ...taskGroup, name: newValue }))
-      }
+      setTaskGroupName(event.target.value)
     },
-    [dispatch, isEditingLocal]
+    []
   )
 
   const handleEdit = useCallback((event: MouseEvent) => {
@@ -55,7 +62,7 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
   const handleRemove = useCallback(
     (event: MouseEvent) => {
       event.stopPropagation()
-      dispatch(deleteTaskGroup({ workspaceId, taskGroupId: id }))
+      dispatch(removeTaskGroup(id))
     },
     [dispatch, id]
   )
@@ -64,12 +71,20 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
     (event: MouseEvent) => {
       event.stopPropagation()
       setIsEditingLocal(false)
-      dispatch(
-        updateTaskGroup({ ...taskGroup, name: taskGroupName, isEditing: false })
-      )
+      if (taskGroupName !== taskGroup.name) {
+        dispatch(
+          updateTaskGroup({
+            id,
+            changes: { name: taskGroupName, isEditing: false },
+          })
+        )
+      }
     },
-    [dispatch, taskGroup, taskGroupName]
+    [dispatch, id, taskGroupName, taskGroup.name]
   )
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id })
 
   const transformWithoutScale = {
     x: transform?.x ?? 0,
@@ -103,25 +118,24 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
             autoFocus
           />
         ) : (
-          <p className={styles.name}>{taskGroup.name}</p>
+          <p className={styles.name}>{taskGroupName}</p>
         )}
         <Controls
+          className={styles.controls}
           isEditing={isEditingLocal || isEditing}
           onEdit={handleEdit}
           onSave={handleSave}
           onRemove={handleRemove}
           canSave={taskGroupName.trim() !== ''}
-          className={styles.controls}
         />
       </div>
-      {Object.keys(taskGroup.tasks).length > 0 && (
+      {tasks.length > 0 && (
         <div className={styles.tasks}>
-          {Object.values(taskGroup.tasks).map(task => (
+          {tasks.map(task => (
             <Task
               key={task.id}
               id={task.id}
               taskGroupId={task.taskGroupId}
-              workspaceId={task.workspaceId}
               content={task.content}
               isEditing={task.isEditing}
             />
@@ -130,9 +144,9 @@ export const TaskGroup = ({ workspaceId, id, isEditing }: TaskGroupProps) => {
       )}
       {!isEditing && (
         <div className={styles.addButton}>
-          <AddTaskButton workspaceId={workspaceId} taskGroupId={id} />
+          <AddTaskButton taskGroupId={id} />
         </div>
       )}
     </div>
   )
-}
+})
